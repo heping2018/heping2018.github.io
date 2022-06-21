@@ -81,7 +81,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -110,12 +110,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Startseite</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archiv</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
 
   </li>
   </ul>
@@ -148,6 +148,292 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/03/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/03/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">中间件比较</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">نُشر في</span>
+
+              <time title="أُنشأ: 2022-06-03 15:22:51" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:51+08:00">2022-06-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2022-06-21 09:44:24" itemprop="dateModified" datetime="2022-06-21T09:44:24+08:00">2022-06-21</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="服务发现与注册"><a href="#服务发现与注册" class="headerlink" title="服务发现与注册"></a>服务发现与注册</h3><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">Zookeeper</th>
+<th align="center">Eureka</th>
+<th align="center">Nacos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">服务健康检查</td>
+<td align="center">keepalive</td>
+<td align="center">客户端主动心跳</td>
+<td align="center">客户端主动心跳&#x2F;服务端主动探测</td>
+</tr>
+<tr>
+<td align="center">kv存储支持</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">一致性协议</td>
+<td align="center">Paxos</td>
+<td align="center">定制p2p</td>
+<td align="center">Distro</td>
+</tr>
+<tr>
+<td align="center">CAP</td>
+<td align="center">CP</td>
+<td align="center">AP</td>
+<td align="center">CP&#x2F;AP</td>
+</tr>
+<tr>
+<td align="center">客户端接口</td>
+<td align="center">客户端</td>
+<td align="center">http</td>
+<td align="center">http&#x2F;sdk(RPC)</td>
+</tr>
+<tr>
+<td align="center">watch支持</td>
+<td align="center">支持</td>
+<td align="center">定期pull</td>
+<td align="center">定时拉取&#x2F;异步通知</td>
+</tr>
+<tr>
+<td align="center">负载均衡</td>
+<td align="center">无</td>
+<td align="center">ribbon</td>
+<td align="center">基于标签</td>
+</tr>
+<tr>
+<td align="center">性能与容量</td>
+<td align="center"></td>
+<td align="center">5000</td>
+<td align="center">10万</td>
+</tr>
+</tbody></table>
+<h3 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h3><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">spring cloud config</th>
+<th align="center">Apollo</th>
+<th align="center">Nacos</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">配置推送</td>
+<td align="center">Spring cloud bus</td>
+<td align="center">长轮询（1s)</td>
+<td align="center">长轮询（1s)</td>
+</tr>
+<tr>
+<td align="center">权限管理</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">多集群</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">多环境</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">监听查询</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">多语言</td>
+<td align="center">java</td>
+<td align="center">go，c++，py，php，java</td>
+<td align="center">py，java</td>
+</tr>
+<tr>
+<td align="center">通信协议</td>
+<td align="center">Git保持数据一致性</td>
+<td align="center">数据库模拟消息队列，Apollo定时读取消息</td>
+<td align="center">Http异步通知&#x2F;定时拉取</td>
+</tr>
+<tr>
+<td align="center">格式校验</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+</tbody></table>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p> |功能 |Redis|Memcache|<br>|:-:|:-:|:-:|:-:|<br> |数据类型|string&#x2F;list&#x2F;hash&#x2F;set&#x2F;sort set|string|<br> |缓存时间|最多缓存30天|无限制|<br> |持久化|支持|不支持|<br> |空间|小于512M|key&lt;&#x3D;256字节，value&lt;&#x3D;1M|<br> |场景|消息队列，数据堆栈|简单数据类型，热点数据|<br> |高可用|支持|需要中间件支持|</p>
+<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p>  |功能 |Kafka|RocketMQ|<br>  |:-:|:-:|:-:|:-:|<br>  |数据可靠性|异步刷盘，异步复制&#x2F;同步复制|异步实时刷盘、同步刷盘、同步复制、异步复制|<br> |单机支持队列|&gt;64 cpu load高|5万|<br> |消息投递实时性|长轮询|长轮询|<br> |消息重试|不支持|支持|<br> |定时|不支持|支持|<br> |分布式事务|不支持|支持|<br> |消息查询|不支持|支持|<br> |消息回溯|按照offset回溯|按照时间回溯|<br> |消息并行度|等于partition数量|不受队列限制|<br> |性能（单机）|百万|7万|</p>
+<h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p> 术语区别</p>
+<p> |mysql|mongodb|解释|<br>|:-:|:-:|:-:|:-:|<br> |database|database|库|<br> |table|collection|表&#x2F;集合|<br> |row|document|数据记录&#x2F;文档|<br> |column|field|数据字段&#x2F;域|<br> |index|index|索引|<br> |table joins||表链接，Mongodb不支持|<br> |primary key|primary key|主键，MongodbDb自动将id字段设置为主键|</p>
+<h4 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h4><p> 特性：</p>
+<ul>
+<li>关系型数据库是指采用了关系模型来组织数据的数据库；</li>
+<li>关系型数据库的最大特点就是事务的一致性;</li>
+<li>简单来说，关系模型指的就是二维表格模型，关系型数据库就是由二维表及其之间的关联组成的数据组织</li>
+</ul>
+<p> 优点：</p>
+<ul>
+<li>容易理解；</li>
+<li>使用方便；</li>
+<li>易于维护；</li>
+</ul>
+<p> 缺点：</p>
+<ul>
+<li>为了维护一执行需要消耗大量的性能</li>
+<li>影响读写</li>
+<li>固定的表结构</li>
+<li>高并发读写需求</li>
+<li>海量数据的高效率读写</li>
+</ul>
+<h4 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h4><p> 特性：</p>
+<ul>
+<li>使用键值对存储数据</li>
+<li>分布式</li>
+<li>不支持ACID特性</li>
+<li>非关系型数据库严格上来说，不算是一种数据库，应该是一种数据结构化存储方法的集合</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>无需经过sql层的解析，读写性能高</li>
+<li>基于键值对，数据没有耦合性，容易扩展</li>
+<li>存储数据的格式，nosql使用key:val的形式，文档的形式，图片形式等等，而关系型数据库则只支持基础类型</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>不提供sql支持，学习成本高</li>
+<li>无事务处理，附加功能和报表支持也不好</li>
+</ul>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><table>
+<thead>
+<tr>
+<th align="center">对比项</th>
+<th align="center">数组</th>
+<th align="center">ArrayList</th>
+<th align="center">LinkedList</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">内存连续性</td>
+<td align="center">必须连续</td>
+<td align="center">必须连续</td>
+<td align="center">无需连续</td>
+</tr>
+<tr>
+<td align="center">存储同等数据内存消耗</td>
+<td align="center">低</td>
+<td align="center">低</td>
+<td align="center">高</td>
+</tr>
+<tr>
+<td align="center">顺序添加</td>
+<td align="center">低</td>
+<td align="center">中</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="center">随机添加</td>
+<td align="center"></td>
+<td align="center">数据量大时建议避免使用，因为涉及大量数据复制</td>
+<td align="center">数据量大时，同样建议</td>
+</tr>
+<tr>
+<td align="center">扩容特性</td>
+<td align="center"></td>
+<td align="center">在空间不足以存储新元素时进行扩容。扩容新增量为原先的容量的2倍</td>
+<td align="center">无界队列，无需扩容</td>
+</tr>
+</tbody></table>
+<h4 id="XA-的框架"><a href="#XA-的框架" class="headerlink" title="XA 的框架"></a>XA 的框架</h4><p>ATOMIKOS:</p>
+<ul>
+<li>TM: 去中心化，性能较高</li>
+<li>日志存储件：只支持文件</li>
+<li>扩展性：较好</li>
+<li>事务恢复：只支持单机事务恢复</li>
+<li>标准XA实现</li>
+</ul>
+<p>narayana</p>
+<ul>
+<li>TM: 去中心化，性能较高</li>
+<li>日志存储件：支持文件,数据库</li>
+<li>扩展性：一般</li>
+<li>事务恢复：支持集群模式恢复</li>
+<li>标准的XA实现</li>
+</ul>
+<p>SEATA:</p>
+<ul>
+<li>TM: 中心化设计，性能较差，BUG较多</li>
+<li>日志存储件：支持文件,数据库</li>
+<li>扩展性：一般</li>
+<li>事务恢复：问题很多，未能正确恢复</li>
+<li>非标准的XA实现</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,10 +456,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
               
 
-              <time title="Erstellt: 2022-05-29 10:57:24 / Geändert am: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
+              <time title="أُنشأ: 2022-05-29 10:57:24 / عُدل: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
             </span>
 
           
@@ -263,16 +549,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
 
-              <time title="Erstellt: 2022-05-28 15:41:00" itemprop="dateCreated datePublished" datetime="2022-05-28T15:41:00+08:00">2022-05-28</time>
+              <time title="أُنشأ: 2022-05-28 15:41:00" itemprop="dateCreated datePublished" datetime="2022-05-28T15:41:00+08:00">2022-05-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-05-29 11:30:36" itemprop="dateModified" datetime="2022-05-29T11:30:36+08:00">2022-05-29</time>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2022-05-29 11:30:36" itemprop="dateModified" datetime="2022-05-29T11:30:36+08:00">2022-05-29</time>
               </span>
 
           
@@ -372,16 +658,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
 
-              <time title="Erstellt: 2022-05-27 22:08:55" itemprop="dateCreated datePublished" datetime="2022-05-27T22:08:55+08:00">2022-05-27</time>
+              <time title="أُنشأ: 2022-05-27 22:08:55" itemprop="dateCreated datePublished" datetime="2022-05-27T22:08:55+08:00">2022-05-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-05-29 17:08:14" itemprop="dateModified" datetime="2022-05-29T17:08:14+08:00">2022-05-29</time>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2022-06-05 10:55:51" itemprop="dateModified" datetime="2022-06-05T10:55:51+08:00">2022-06-05</time>
               </span>
 
           
@@ -425,27 +711,27 @@
 </li>
 </ol>
 <p>将数据从磁盘读入内存涉及随机 IO 的访问，是数据库里面成本最高的操作之一。change buffer 因为减少了随机磁盘访问，所以对更新性能的提升是会很明显的。</p>
-<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#46;&#x63;&#x6f;&#109;">&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#46;&#x63;&#x6f;&#109;</a>‘;</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#x6e;&#103;&#115;&#115;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#99;&#111;&#x6d;">&#x7a;&#x68;&#x61;&#x6e;&#103;&#115;&#115;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#99;&#111;&#x6d;</a>‘;</p>
 <ul>
 <li>如果使用的是 index1（即 email 整个字符串的索引结构），执行顺序是这样的：<ol>
-<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#122;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#122;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;">&#122;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#122;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;</a>’的这条记录，取得 ID2 的值；</li>
+<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#122;&#x68;&#97;&#x6e;&#103;&#x73;&#115;&#120;&#121;&#122;&#64;&#120;&#120;&#120;&#x2e;&#x63;&#x6f;&#x6d;">&#122;&#x68;&#97;&#x6e;&#103;&#x73;&#115;&#120;&#121;&#122;&#64;&#120;&#120;&#120;&#x2e;&#x63;&#x6f;&#x6d;</a>’的这条记录，取得 ID2 的值；</li>
 <li>到主键上查到主键值是 ID2 的行，判断 email 的值是正确的，将这行记录加入结果集；</li>
-<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#122;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#x63;&#111;&#109;">&#122;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#x63;&#111;&#109;</a>’的条件了，循环结束。</li>
+<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#x7a;&#104;&#x61;&#110;&#x67;&#115;&#115;&#x78;&#121;&#122;&#64;&#120;&#x78;&#120;&#x2e;&#x63;&#111;&#x6d;">&#x7a;&#104;&#x61;&#110;&#x67;&#115;&#115;&#x78;&#121;&#122;&#64;&#120;&#x78;&#120;&#x2e;&#x63;&#111;&#x6d;</a>’的条件了，循环结束。</li>
 </ol>
 </li>
 <li>如果使用的是 index2（即 email(6) 索引结构），执行顺序是这样的：<ol>
-<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;">&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
+<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#x7a;&#104;&#97;&#x6e;&#103;&#x73;&#x73;&#x78;&#x79;&#122;&#x40;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#109;">&#x7a;&#104;&#97;&#x6e;&#103;&#x73;&#x73;&#x78;&#x79;&#122;&#x40;&#120;&#x78;&#120;&#46;&#x63;&#x6f;&#109;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
 </ol>
 </li>
 </ul>
-<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#122;&#x68;&#x61;&#x6e;&#103;&#x73;&#115;&#x78;&#x79;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;">&#122;&#x68;&#x61;&#x6e;&#103;&#x73;&#115;&#x78;&#x79;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;</a>‘;</p>
+<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#104;&#97;&#x6e;&#x67;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#120;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;">&#x7a;&#104;&#97;&#x6e;&#x67;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#120;&#x78;&#x78;&#x2e;&#99;&#111;&#x6d;</a>‘;</p>
 <ul>
 <li>如果使用 index1（即 email 整个字符串的索引结构）的话，可以利用覆盖索引，从 index1 查到结果后直接就返回了，不需要回到 ID 索引再去查一次。而如果使用 index2（即 email(6) 索引结构）的话，就不得不回到 ID 索引再去判断 email 字段的值。</li>
 <li>如果使用index2 的定义修改为 email(18) 的前缀索引，这时候虽然 index2 已经包含了所有的信息，但 InnoDB 还是要回到 id 索引再查一下，因为系统并不确定前缀索引的定义是否截断了完整信息。</li>
 </ul>
 <h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><p><code>CREATE TABLE</code>t<code>(  </code>id<code>int(11) NOT NULL,  </code>c<code>int(11) DEFAULT NULL,  </code>d<code>int(11) DEFAULT NULL,  </code>e<code> int(11) DEFAULT NULL,   PRIMARY KEY (</code>id<code>),   KEY </code>cd<code> (</code>c<code>,</code>d<code>) ) ENGINE=InnoDB; insert into t values(0,0,0,0),(5,5,5,5), (10,10,10,10),(15,15,15,15),(20,20,20,20),(25,25,25,25); </code></p>
 <ul>
-<li>联合索引没有全匹配，并且没有按照联合索引定义顺序<br>[explain  select * from t where  d &#x3D; 2 ；<br>explain  select * from t where  c &#x3D; 2  and d &#x3D; 1 and e &#x3D; 1;]</li>
+<li>联合索引没有全匹配，并且没有按照联合索引定义顺序<br>[explain  select * from t where  d &#x3D; 2 ]</li>
 <li>最左前缀原则<br>[explain select * from tuser where name like ‘%张%’]</li>
 <li>索引计算<br>[explain  select * from t where  id &#x3D;id+ 2 ]</li>
 <li>类型转换</li>
@@ -506,16 +792,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
 
-              <time title="Erstellt: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
+              <time title="أُنشأ: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-05-26 10:16:20" itemprop="dateModified" datetime="2022-05-26T10:16:20+08:00">2022-05-26</time>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2022-06-12 10:35:57" itemprop="dateModified" datetime="2022-06-12T10:35:57+08:00">2022-06-12</time>
               </span>
 
           
@@ -561,6 +847,9 @@
 <p>  Try：尝试执行阶段，完成所有业务的可执行检查，并且预留好全部需要资源（保障隔离性）。</p>
 <p>  Confirm: 确认执行阶段，不进行任何业务检查，直接使用Try阶段准备的资源来完成业务处理。Confirm阶段可能会重复执行，因此本阶段执行的操作需要具有幂等性。</p>
 <p>  Cannel：取消执行阶段，释放Try阶段预留的业务资源。onfirm阶段可能会重复执行，因此本阶段执行的操作需要具有幂等性。</p>
+<p>  空回滚</p>
+<p>  防悬挂控制</p>
+<p>  幂等设计 </p>
 <h3 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h3><p>Saga是一种微服务架构中维护数据一致性的机制，一个Saga表示需要更新多个服务中数据的一个系统操作，Saga由连串的本地事务组成。</p>
 <h4 id="解决隔离性问题"><a href="#解决隔离性问题" class="headerlink" title="解决隔离性问题"></a>解决隔离性问题</h4><p>Saga缺乏ACID事务的隔离性，因为一旦该事务提交，每个Saga的本地事务所做的更新都会立即被其他Saga看到。<br>事实上，可以任务Saga只满足ACD三个属性：</p>
 <ul>
@@ -636,16 +925,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
 
-              <time title="Erstellt: 2022-05-23 23:41:00" itemprop="dateCreated datePublished" datetime="2022-05-23T23:41:00+08:00">2022-05-23</time>
+              <time title="أُنشأ: 2022-05-23 23:41:00" itemprop="dateCreated datePublished" datetime="2022-05-23T23:41:00+08:00">2022-05-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-05-25 18:25:08" itemprop="dateModified" datetime="2022-05-25T18:25:08+08:00">2022-05-25</time>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2022-05-25 18:25:08" itemprop="dateModified" datetime="2022-05-25T18:25:08+08:00">2022-05-25</time>
               </span>
 
           
@@ -733,10 +1022,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">نُشر في</span>
               
 
-              <time title="Erstellt: 2022-05-23 21:37:44 / Geändert am: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
+              <time title="أُنشأ: 2022-05-23 21:37:44 / عُدل: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
             </span>
 
           
@@ -822,10 +1111,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Inhaltsverzeichnis
+          المحتويات
         </li>
         <li class="sidebar-nav-overview">
-          Übersicht
+          عام
         </li>
       </ul>
 
@@ -846,8 +1135,8 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
-          <span class="site-state-item-name">Artikel</span>
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">المقالات</span>
         </a>
       </div>
   </nav>
@@ -880,7 +1169,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
