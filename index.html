@@ -148,6 +148,208 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/" class="post-title-link" itemprop="url">mysql InnoDB引擎 原子性和持久性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              <time title="Erstellt: 2022-05-29 10:57:24 / Geändert am: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>数据写入磁盘需要经过操作系统的内存，系统内存写入磁盘的过程是 “正在写”的过程，“未写入”-&gt; “正在写”<br>-&gt; “已写入” 这三个过程不是原子性的，如果多条数据在一个事务中处于在“正在写”的过程，服务宕机，内存的数据丢失，部分数据写入到磁盘，原子性和持久性被破坏。</p>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><h4 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h4><p><img src="/images/pasted-6.png"><br>redo log 存在三种状态</p>
+<ul>
+<li>存在 redo log buffer 中，物理上是在 MySQL 进程内存中，就是图中的红色部分；</li>
+<li>写到磁盘 (write)，但是没有持久化（fsync)，物理上是在文件系统的 page cache 里面，也就是图中的黄色部分；</li>
+<li>持久化到磁盘，对应的是 hard disk，也就是图中的绿色部分。</li>
+</ul>
+<p>为了控制 redo log 的写入策略，InnoDB 提供了 innodb_flush_log_at_trx_commit 参数，它有三种可能取值：</p>
+<ul>
+<li>设置为 0 的时候，表示每次事务提交时都只是把 redo log 留在 redo log buffer 中 ;</li>
+<li>设置为 1 的时候，表示每次事务提交时都将 redo log 直接持久化到磁盘；</li>
+<li>设置为 2 的时候，表示每次事务提交时都只是把 redo log 写到 page cache。</li>
+</ul>
+<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><p>binlog 的写入逻辑比较简单：事务执行过程中，先把日志写到 binlog cache，事务提交的时候，再把 binlog cache 写到 binlog 文件中。</p>
+<p>一个事务的 binlog 是不能被拆开的，因此不论这个事务多大，也要确保一次性写入。这就涉及到了 binlog cache 的保存问题。</p>
+<p>系统给 binlog cache 分配了一片内存，每个线程一个，参数 binlog_cache_size 用于控制单个线程内 binlog cache 所占内存的大小。如果超过了这个参数规定的大小，就要暂存到磁盘。</p>
+<p><img src="/images/pasted-7.png"><br>write 和 fsync 的时机，是由参数 sync_binlog 控制的：</p>
+<ul>
+<li>sync_binlog&#x3D;0 的时候，表示每次提交事务都只 write，不 fsync；</li>
+<li>sync_binlog&#x3D;1 的时候，表示每次提交事务都会执行 fsync；</li>
+<li>sync_binlog&#x3D;N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync。</li>
+</ul>
+<h3 id="两个日志的理解"><a href="#两个日志的理解" class="headerlink" title="两个日志的理解"></a>两个日志的理解</h3><p>执行器和 InnoDB 引擎在执行这个简单的 update 语句时的内部流程。</p>
+<ol>
+<li><p>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。</p>
+</li>
+<li><p>如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。<br><code>如果这里发生宕机,事务没有提交不会，数据恢复，不会有数据记录，符合原子性</code></p>
+</li>
+<li><p>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。<br><code>如果这里发生宕机,redo log 没有提交记录，数据恢复不会包含这提交数据，符合原子性</code></p>
+</li>
+<li><p>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</p>
+</li>
+<li><p>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。<br><code>如果这里发生宕机,redo log 有提交记录，数据恢复会包含这提交数据，符合原子性</code></p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/28/Mysql%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/28/Mysql%E9%94%81/" class="post-title-link" itemprop="url">Mysql锁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+
+              <time title="Erstellt: 2022-05-28 15:41:00" itemprop="dateCreated datePublished" datetime="2022-05-28T15:41:00+08:00">2022-05-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2022-05-29 11:30:36" itemprop="dateModified" datetime="2022-05-29T11:30:36+08:00">2022-05-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a>全局锁</h2><h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><h2 id="间隙锁"><a href="#间隙锁" class="headerlink" title="间隙锁"></a>间隙锁</h2><p>幻读</p>
+<ul>
+<li><p>定义<br>   一个事务在前后两次查询同一个范围的时候，后一次查询看到了前一次查询没有看到的行。<br>+ 在可重复读隔离级别下，普通的查询是快照读，是不会看到别的事务插入的数据的。因此，幻读在“当前读”下才会出现。<br>+ 幻读仅专指“新插入的行”  。</p>
+</li>
+<li><p>问题</p>
+</li>
+</ul>
+<p>间隙锁</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">间隙锁</th>
+<th align="center">读锁</th>
+<th align="center">写锁</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">间隙锁</td>
+<td align="center">兼容</td>
+<td align="center">兼容</td>
+<td align="center">冲突</td>
+</tr>
+<tr>
+<td align="center">读锁</td>
+<td align="center">兼容</td>
+<td align="center">兼容</td>
+<td align="center">冲突</td>
+</tr>
+<tr>
+<td align="center">写锁</td>
+<td align="center">冲突</td>
+<td align="center">冲突</td>
+<td align="center">冲突</td>
+</tr>
+</tbody></table>
+<p> next-key lock：间隙锁+行锁</p>
+<p> 加锁规则：</p>
+<ol>
+<li>原则 1：加锁的基本单位是 next-key lock，next-key lock 是前开后闭区间。</li>
+<li>原则 2：查找过程中访问到的对象才会加锁。</li>
+<li>优化 1：索引上的等值查询，给唯一索引加锁的时候，next-key lock 退化为行锁。</li>
+<li>优化 2：索引上的等值查询，向右遍历时且最后一个值不满足等值条件的时候，next-key lock 退化为间隙锁。</li>
+<li>一个 bug：唯一索引上的范围查询会访问到不满足条件的第一个值为止。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/27/Mysql%E7%B4%A2%E5%BC%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,7 +381,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-05-28 11:45:49" itemprop="dateModified" datetime="2022-05-28T11:45:49+08:00">2022-05-28</time>
+                <time title="Geändert am: 2022-05-29 17:08:14" itemprop="dateModified" datetime="2022-05-29T17:08:14+08:00">2022-05-29</time>
               </span>
 
           
@@ -223,23 +425,32 @@
 </li>
 </ol>
 <p>将数据从磁盘读入内存涉及随机 IO 的访问，是数据库里面成本最高的操作之一。change buffer 因为减少了随机磁盘访问，所以对更新性能的提升是会很明显的。</p>
-<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#104;&#97;&#x6e;&#x67;&#x73;&#115;&#120;&#121;&#x7a;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#111;&#x6d;">&#x7a;&#104;&#97;&#x6e;&#x67;&#x73;&#115;&#120;&#121;&#x7a;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#111;&#x6d;</a>‘;</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#46;&#x63;&#x6f;&#109;">&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#46;&#x63;&#x6f;&#109;</a>‘;</p>
 <ul>
 <li>如果使用的是 index1（即 email 整个字符串的索引结构），执行顺序是这样的：<ol>
-<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#x7a;&#x68;&#97;&#x6e;&#x67;&#x73;&#115;&#x78;&#121;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#x63;&#x6f;&#x6d;">&#x7a;&#x68;&#97;&#x6e;&#x67;&#x73;&#115;&#x78;&#121;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#x63;&#x6f;&#x6d;</a>’的这条记录，取得 ID2 的值；</li>
+<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#122;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#122;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;">&#122;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#122;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;</a>’的这条记录，取得 ID2 的值；</li>
 <li>到主键上查到主键值是 ID2 的行，判断 email 的值是正确的，将这行记录加入结果集；</li>
-<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#122;&#104;&#97;&#110;&#x67;&#x73;&#115;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#109;">&#122;&#104;&#97;&#110;&#x67;&#x73;&#115;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#120;&#x2e;&#x63;&#x6f;&#109;</a>’的条件了，循环结束。</li>
+<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#122;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#x63;&#111;&#109;">&#122;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#120;&#120;&#46;&#x63;&#111;&#109;</a>’的条件了，循环结束。</li>
 </ol>
 </li>
 <li>如果使用的是 index2（即 email(6) 索引结构），执行顺序是这样的：<ol>
-<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#x7a;&#104;&#x61;&#110;&#103;&#115;&#115;&#120;&#x79;&#122;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;">&#x7a;&#104;&#x61;&#110;&#103;&#115;&#115;&#120;&#x79;&#122;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
+<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;">&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#x6f;&#109;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
 </ol>
 </li>
 </ul>
-<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#122;&#x68;&#97;&#x6e;&#x67;&#115;&#115;&#120;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;">&#122;&#x68;&#97;&#x6e;&#x67;&#115;&#115;&#120;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#99;&#111;&#x6d;</a>‘;</p>
+<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#122;&#x68;&#x61;&#x6e;&#103;&#x73;&#115;&#x78;&#x79;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;">&#122;&#x68;&#x61;&#x6e;&#103;&#x73;&#115;&#x78;&#x79;&#122;&#64;&#x78;&#120;&#120;&#x2e;&#99;&#x6f;&#x6d;</a>‘;</p>
 <ul>
 <li>如果使用 index1（即 email 整个字符串的索引结构）的话，可以利用覆盖索引，从 index1 查到结果后直接就返回了，不需要回到 ID 索引再去查一次。而如果使用 index2（即 email(6) 索引结构）的话，就不得不回到 ID 索引再去判断 email 字段的值。</li>
 <li>如果使用index2 的定义修改为 email(18) 的前缀索引，这时候虽然 index2 已经包含了所有的信息，但 InnoDB 还是要回到 id 索引再查一下，因为系统并不确定前缀索引的定义是否截断了完整信息。</li>
+</ul>
+<h3 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h3><p><code>CREATE TABLE</code>t<code>(  </code>id<code>int(11) NOT NULL,  </code>c<code>int(11) DEFAULT NULL,  </code>d<code>int(11) DEFAULT NULL,  </code>e<code> int(11) DEFAULT NULL,   PRIMARY KEY (</code>id<code>),   KEY </code>cd<code> (</code>c<code>,</code>d<code>) ) ENGINE=InnoDB; insert into t values(0,0,0,0),(5,5,5,5), (10,10,10,10),(15,15,15,15),(20,20,20,20),(25,25,25,25); </code></p>
+<ul>
+<li>联合索引没有全匹配，并且没有按照联合索引定义顺序<br>[explain  select * from t where  d &#x3D; 2 ；<br>explain  select * from t where  c &#x3D; 2  and d &#x3D; 1 and e &#x3D; 1;]</li>
+<li>最左前缀原则<br>[explain select * from tuser where name like ‘%张%’]</li>
+<li>索引计算<br>[explain  select * from t where  id &#x3D;id+ 2 ]</li>
+<li>类型转换</li>
+<li>or<br> [explain  select * from t where  c &#x3D; 2  or d &#x3D; 1]</li>
+<li>索引使用前范围查询<br> [explain  select * from t where  c &gt; 2  and d &#x3D; 1;]</li>
 </ul>
 <h3 id="count"><a href="#count" class="headerlink" title="count(*)"></a>count(*)</h3><ul>
 <li>MyISAM 引擎把一个表的总行数存在了磁盘上，因此执行 count(*) 的时候会直接返回这个数，效率很高；</li>
@@ -635,7 +846,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">Artikel</span>
         </a>
       </div>
