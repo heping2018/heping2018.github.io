@@ -28,7 +28,7 @@
 <meta property="og:description" content="服务发现与注册   功能 Zookeeper Eureka Nacos    服务健康检查 keepalive 客户端主动心跳 客户端主动心跳&#x2F;服务端主动探测   kv存储支持 支持 不支持 支持   一致性协议 Paxos 定制p2p Distro   CAP CP AP CP&#x2F;AP   客户端接口 客户端 http http&#x2F;sdk(RPC)   watch支持">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-06-03T07:22:00.000Z">
-<meta property="article:modified_time" content="2022-08-21T01:50:02.421Z">
+<meta property="article:modified_time" content="2023-01-31T14:31:08.664Z">
 <meta property="article:author" content="何平">
 <meta name="twitter:card" content="summary">
 
@@ -85,7 +85,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -114,12 +114,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Startseite</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archiv</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
   </ul>
@@ -174,16 +174,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Veröffentlicht am</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Erstellt: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
+              <time title="Created: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Bearbeitet am</span>
-                <time title="Geändert am: 2022-08-21 09:50:02" itemprop="dateModified" datetime="2022-08-21T09:50:02+08:00">2022-08-21</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-01-31 22:31:08" itemprop="dateModified" datetime="2023-01-31T22:31:08+08:00">2023-01-31</time>
               </span>
 
           
@@ -313,10 +313,198 @@
 <td align="center">支持</td>
 </tr>
 </tbody></table>
-<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p> |功能|Redis|Memcache|<br> |:-:|:-:|:-:|:-:|<br> |数据类型|string&#x2F;list&#x2F;hash&#x2F;set&#x2F;sort set|string|<br> |缓存时间|最多缓存30天|无限制|<br> |持久化|支持|不支持|<br> |空间|小于512M|key&lt;&#x3D;256字节，value&lt;&#x3D;1M|<br> |场景|消息队列，数据堆栈|简单数据类型，热点数据|<br> |高可用|支持|需要中间件支持|</p>
-<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><p> |功能|Kafka|RocketMQ|<br> |:-:|:-:|:-:|:-:|<br> |数据可靠性|异步刷盘，异步复制&#x2F;同步复制|异步实时刷盘、同步刷盘、同步复制、异步复制|<br> |单机支持队列|&gt;64 cpu load高|5万|<br> |消息投递实时性|长轮询|长轮询|<br> |消息重试|不支持|支持|<br> |定时|不支持|支持|<br> |分布式事务|不支持|支持|<br> |消息查询|不支持|支持|<br> |消息回溯|按照offset回溯|按照时间回溯|<br> |消息并行度|等于partition数量|不受队列限制|<br> |性能（单机）|百万|7万|</p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">Redis</th>
+<th align="center">Memcache</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">数据类型</td>
+<td align="center">string&#x2F;list&#x2F;hash&#x2F;set&#x2F;sort set</td>
+<td align="center">string</td>
+</tr>
+<tr>
+<td align="center">缓存时间</td>
+<td align="center">最多缓存30天</td>
+<td align="center">无限制</td>
+</tr>
+<tr>
+<td align="center">持久化</td>
+<td align="center">支持</td>
+<td align="center">不支持</td>
+</tr>
+<tr>
+<td align="center">空间</td>
+<td align="center">小于512M</td>
+<td align="center">key&lt;&#x3D;256字节，value&lt;&#x3D;1M</td>
+</tr>
+<tr>
+<td align="center">场景</td>
+<td align="center">消息队列，数据堆栈</td>
+<td align="center">简单数据类型，热点数据</td>
+</tr>
+<tr>
+<td align="center">高可用</td>
+<td align="center">支持</td>
+<td align="center">需要中间件支持</td>
+</tr>
+</tbody></table>
+<h3 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h3><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">Kafka</th>
+<th align="center">RocketMQ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">数据可靠性</td>
+<td align="center">异步刷盘，异步复制&#x2F;同步复制</td>
+<td align="center">异步实时刷盘、同步刷盘、同步复制、异步复制</td>
+</tr>
+<tr>
+<td align="center">单机支持队列</td>
+<td align="center">&gt;64 cpu load高</td>
+<td align="center">5万</td>
+</tr>
+<tr>
+<td align="center">消息投递实时性</td>
+<td align="center">长轮询</td>
+<td align="center">长轮询</td>
+</tr>
+<tr>
+<td align="center">消息重试</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">定时</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">分布式事务</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">消息查询</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">消息回溯</td>
+<td align="center">按照offset回溯</td>
+<td align="center">按照时间回溯</td>
+</tr>
+<tr>
+<td align="center">消息并行度</td>
+<td align="center">等于partition数量</td>
+<td align="center">不受队列限制</td>
+</tr>
+<tr>
+<td align="center">性能（单机）</td>
+<td align="center">百万</td>
+<td align="center">7万</td>
+</tr>
+</tbody></table>
+<h3 id="定时调度框架"><a href="#定时调度框架" class="headerlink" title="定时调度框架"></a>定时调度框架</h3><table>
+<thead>
+<tr>
+<th align="center">功能特性</th>
+<th align="center">ElasticJob</th>
+<th align="center">xxl-job</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">可视化运营</td>
+<td align="center">提供了可视化web页面对任务进行管理</td>
+<td align="center">提供了可视化web页面对任务进行管理</td>
+</tr>
+<tr>
+<td align="center">日志跟踪</td>
+<td align="center">提供了事件监听机制跟踪日志调度中得重要事件 用户需自定义日志输出</td>
+<td align="center">按任务级别存储日志，支持通过web页面查询调度任务执行日志</td>
+</tr>
+<tr>
+<td align="center">监控告警</td>
+<td align="center">需要用户根据扩展接口实现告警功能</td>
+<td align="center">默认提供了邮件失败告警，并提供了扩展接口</td>
+</tr>
+<tr>
+<td align="center">弹性扩容</td>
+<td align="center">通过zookeeper实现调度服务得注册与协调，提供了任务级别调度器得选举功能，每一个任务会对应一个leader调度器</td>
+<td align="center">使用Quartz基于数据库得分布式扩容</td>
+</tr>
+<tr>
+<td align="center">失败处理</td>
+<td align="center">支持准实时级别得失败转移，任务错过调度后支持重新触发执行</td>
+<td align="center">任务失败告警，支持失败重试，任务失败转移到其他节点执行机制</td>
+</tr>
+<tr>
+<td align="center">高可用</td>
+<td align="center">通过zookeeper提供得watch机制，准实时感知故障，并执行故障转移</td>
+<td align="center">通过DB锁包装集群得分布式调度一致性，严格保障一个任务只会触发一次</td>
+</tr>
+<tr>
+<td align="center">动态分片</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">灰度发布</td>
+<td align="center">不支持</td>
+<td align="center">支持</td>
+</tr>
+</tbody></table>
 <h3 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h3><p> 术语区别</p>
-<p> |mysql|mongodb|解释|<br> |:-:|:-:|:-:|:-:|<br> |database|database|库|<br> |table|collection|表&#x2F;集合|<br> |row|document|数据记录&#x2F;文档|<br> |column|field|数据字段&#x2F;域|<br> |index|index|索引|<br> |table joins||表链接，Mongodb不支持|<br> |primary key|primary key|主键，MongodbDb自动将id字段设置为主键|</p>
+<table>
+<thead>
+<tr>
+<th align="center">mysql</th>
+<th align="center">mongodb</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">database</td>
+<td align="center">database</td>
+<td align="center">库</td>
+</tr>
+<tr>
+<td align="center">table</td>
+<td align="center">collection</td>
+<td align="center">表&#x2F;集合</td>
+</tr>
+<tr>
+<td align="center">row</td>
+<td align="center">document</td>
+<td align="center">数据记录&#x2F;文档</td>
+</tr>
+<tr>
+<td align="center">column</td>
+<td align="center">field</td>
+<td align="center">数据字段&#x2F;域</td>
+</tr>
+<tr>
+<td align="center">index</td>
+<td align="center">index</td>
+<td align="center">索引</td>
+</tr>
+<tr>
+<td align="center">table joins</td>
+<td align="center"></td>
+<td align="center">表链接，Mongodb不支持</td>
+</tr>
+<tr>
+<td align="center">primary key</td>
+<td align="center">primary key</td>
+<td align="center">主键，MongodbDb自动将id字段设置为主键</td>
+</tr>
+</tbody></table>
 <h4 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h4><p> 特性：</p>
 <ul>
 <li>关系型数据库是指采用了关系模型来组织数据的数据库；</li>
@@ -512,16 +700,16 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Inhaltsverzeichnis
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          Übersicht
+          Overview
         </li>
       </ul>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="nav-number">1.</span> <span class="nav-text">服务发现与注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">2.</span> <span class="nav-text">配置中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.1.</span> <span class="nav-text">关系型数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">5.2.</span> <span class="nav-text">非关系型数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text">基础类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XA-%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">6.1.</span> <span class="nav-text">XA 的框架</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C"><span class="nav-number">1.</span> <span class="nav-text">服务发现与注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">2.</span> <span class="nav-text">配置中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">3.</span> <span class="nav-text">缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">定时调度框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.1.</span> <span class="nav-text">关系型数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">6.2.</span> <span class="nav-text">非关系型数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B"><span class="nav-number">7.</span> <span class="nav-text">基础类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XA-%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">7.1.</span> <span class="nav-text">XA 的框架</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,7 +726,7 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">9</span>
-          <span class="site-state-item-name">Artikel</span>
+          <span class="site-state-item-name">posts</span>
         </a>
       </div>
   </nav>
@@ -565,13 +753,13 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
