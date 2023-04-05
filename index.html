@@ -81,7 +81,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح">
+    <div class="toggle" aria-label="Cambiar a barra de navegación">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -110,12 +110,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Inicio</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archivo</a>
 
   </li>
   </ul>
@@ -148,6 +148,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/05/spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/05/spring/" class="post-title-link" itemprop="url">spring config</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Publicado el</span>
+              
+
+              <time title="Creado por: 2023-04-05 20:20:00 / Modificado por: 22:06:55" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="spring-boot-config"><a href="#spring-boot-config" class="headerlink" title="spring boot config"></a>spring boot config</h2><h3 id="spring-boot配置方式"><a href="#spring-boot配置方式" class="headerlink" title="spring boot配置方式"></a>spring boot配置方式</h3><ul>
+<li>devtools global setting propertise</li>
+<li>@TestPropertySource</li>
+<li>@springBootTest</li>
+<li>命令行参数</li>
+<li>spring_application_json</li>
+<li>servletConfig</li>
+<li>servletContext</li>
+<li>JDNI</li>
+<li>java System propertise</li>
+<li>操作系统</li>
+<li>随机数</li>
+<li>application-{profile} 包外</li>
+<li>application-{profile} 包内</li>
+<li>application.propertise或者yml包外文件</li>
+<li>application.propertise或者yml包内文件</li>
+<li>@PropertySource</li>
+<li>默认属性 （自己添加properties对象）</li>
+</ul>
+<p><code>https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-exposing-yaml-to-spring</code></p>
+<h3 id="配置方式的核心逻辑"><a href="#配置方式的核心逻辑" class="headerlink" title="配置方式的核心逻辑"></a>配置方式的核心逻辑</h3><ul>
+<li>main 命令行参数 org.springframework.boot.SpringApplication#configurePropertySources()</li>
+</ul>
+<ul>
+<li><img src="/images/pasted-11.png" alt="upload successful"></li>
+</ul>
+<ul>
+<li>org.springframework.boot.context.config.ConfigFileApplicationListener 监听ApplicationEnvironmentPreparedEvent事件<ul>
+<li>执行顺序：public static final int DEFAULT_ORDER &#x3D; Ordered.HIGHEST_PRECEDENCE + 10;</li>
+<li>执行逻辑：<ul>
+<li>org.springframework.boot.context.config.RandomValuePropertySource#addToEnvironment</li>
+<li>org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#load()</li>
+<li>profile<Queue>集合: 							-<br> -     org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#initializeActiveProfiles 读取命令行中 add<code>spring.profiles.active</code> 和 <code>spring.profiles.include</code> 的profile<br> - add defaultProfile	<br> - add null</li>
+</ul>
+</li>
+<li>确定配置文件的位置 – <code>spring.config.location</code><br>org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#getSearchLocations</li>
+<li>循环取数 profiles.poll() 先进后出<br>  - application.properties ( propertySources.addFirst(propertySource);)<br>  - 	 application-default.properties (<code>spring.profiles.default</code>命令行存在的情况下)<br> - <code>spring.profiles.active</code> 和 <code>spring.profiles.include</code> （也就解释了为什么在application.propertes 生效的原因）org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#addProfiles</li>
+</ul>
+</li>
+</ul>
+<h3 id="spring-profiles-active与default互斥"><a href="#spring-profiles-active与default互斥" class="headerlink" title="spring.profiles.active与default互斥"></a>spring.profiles.active与default互斥</h3><pre><code> org.springframework.boot.bind.RelaxedDataBinder#doBind 会过滤掉default
+        
+</code></pre>
+<h2 id="spring-cloud-config"><a href="#spring-cloud-config" class="headerlink" title="spring cloud config"></a>spring cloud config</h2><p>org.springframework.cloud.bootstrap.BootstrapApplicationListener</p>
+<ul>
+<li>执行顺序：public static final int DEFAULT_ORDER &#x3D; Ordered.HIGHEST_PRECEDENCE + 5</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/16/kubernetes%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,16 +275,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-10-16 16:11:53" itemprop="dateCreated datePublished" datetime="2022-10-16T16:11:53+08:00">2022-10-16</time>
+              <time title="Creado por: 2022-10-16 16:11:53" itemprop="dateCreated datePublished" datetime="2022-10-16T16:11:53+08:00">2022-10-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-02-08 22:28:15" itemprop="dateModified" datetime="2023-02-08T22:28:15+08:00">2023-02-08</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2023-02-08 22:28:15" itemprop="dateModified" datetime="2023-02-08T22:28:15+08:00">2023-02-08</time>
               </span>
 
           
@@ -274,10 +379,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
               
 
-              <time title="أُنشأ: 2022-10-05 19:06:07 / عُدل: 21:14:55" itemprop="dateCreated datePublished" datetime="2022-10-05T19:06:07+08:00">2022-10-05</time>
+              <time title="Creado por: 2022-10-05 19:06:07 / Modificado por: 21:14:55" itemprop="dateCreated datePublished" datetime="2022-10-05T19:06:07+08:00">2022-10-05</time>
             </span>
 
           
@@ -426,16 +531,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
+              <time title="Creado por: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-01-31 22:31:08" itemprop="dateModified" datetime="2023-01-31T22:31:08+08:00">2023-01-31</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2023-01-31 22:31:08" itemprop="dateModified" datetime="2023-01-31T22:31:08+08:00">2023-01-31</time>
               </span>
 
           
@@ -922,10 +1027,10 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
               
 
-              <time title="أُنشأ: 2022-05-29 10:57:24 / عُدل: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
+              <time title="Creado por: 2022-05-29 10:57:24 / Modificado por: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
             </span>
 
           
@@ -1015,16 +1120,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-05-28 15:41:00" itemprop="dateCreated datePublished" datetime="2022-05-28T15:41:00+08:00">2022-05-28</time>
+              <time title="Creado por: 2022-05-28 15:41:00" itemprop="dateCreated datePublished" datetime="2022-05-28T15:41:00+08:00">2022-05-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2022-05-29 11:30:36" itemprop="dateModified" datetime="2022-05-29T11:30:36+08:00">2022-05-29</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2022-05-29 11:30:36" itemprop="dateModified" datetime="2022-05-29T11:30:36+08:00">2022-05-29</time>
               </span>
 
           
@@ -1124,16 +1229,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-05-27 22:08:55" itemprop="dateCreated datePublished" datetime="2022-05-27T22:08:55+08:00">2022-05-27</time>
+              <time title="Creado por: 2022-05-27 22:08:55" itemprop="dateCreated datePublished" datetime="2022-05-27T22:08:55+08:00">2022-05-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2022-06-05 10:55:51" itemprop="dateModified" datetime="2022-06-05T10:55:51+08:00">2022-06-05</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2022-06-05 10:55:51" itemprop="dateModified" datetime="2022-06-05T10:55:51+08:00">2022-06-05</time>
               </span>
 
           
@@ -1177,20 +1282,20 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
 </li>
 </ol>
 <p>将数据从磁盘读入内存涉及随机 IO 的访问，是数据库里面成本最高的操作之一。change buffer 因为减少了随机磁盘访问，所以对更新性能的提升是会很明显的。</p>
-<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#120;&#x79;&#122;&#64;&#120;&#x78;&#120;&#x2e;&#99;&#111;&#x6d;">&#x7a;&#x68;&#x61;&#x6e;&#103;&#x73;&#x73;&#120;&#x79;&#122;&#64;&#120;&#x78;&#120;&#x2e;&#99;&#111;&#x6d;</a>‘;</p>
+<h3 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h3><p>例如：<br>   select id,name,email from SUser where email&#x3D;‘<a href="mailto:&#122;&#x68;&#97;&#x6e;&#x67;&#115;&#x73;&#120;&#x79;&#x7a;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#111;&#x6d;">&#122;&#x68;&#97;&#x6e;&#x67;&#115;&#x73;&#120;&#x79;&#x7a;&#64;&#x78;&#120;&#x78;&#46;&#x63;&#111;&#x6d;</a>‘;</p>
 <ul>
 <li>如果使用的是 index1（即 email 整个字符串的索引结构），执行顺序是这样的：<ol>
-<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#x7a;&#x68;&#x61;&#x6e;&#x67;&#115;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#x6f;&#109;">&#x7a;&#x68;&#x61;&#x6e;&#x67;&#115;&#x73;&#x78;&#x79;&#x7a;&#x40;&#x78;&#x78;&#120;&#46;&#99;&#x6f;&#109;</a>’的这条记录，取得 ID2 的值；</li>
+<li>从 index1 索引树找到满足索引值是’<a href="mailto:&#x7a;&#104;&#x61;&#110;&#x67;&#x73;&#x73;&#x78;&#x79;&#122;&#x40;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;">&#x7a;&#104;&#x61;&#110;&#x67;&#x73;&#x73;&#x78;&#x79;&#122;&#x40;&#120;&#x78;&#120;&#46;&#99;&#111;&#x6d;</a>’的这条记录，取得 ID2 的值；</li>
 <li>到主键上查到主键值是 ID2 的行，判断 email 的值是正确的，将这行记录加入结果集；</li>
-<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#120;&#121;&#x7a;&#x40;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;">&#x7a;&#x68;&#x61;&#110;&#103;&#x73;&#x73;&#120;&#121;&#x7a;&#x40;&#x78;&#120;&#x78;&#46;&#x63;&#x6f;&#109;</a>’的条件了，循环结束。</li>
+<li>取 index1 索引树上刚刚查到的位置的下一条记录，发现已经不满足 email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#x61;&#110;&#x67;&#115;&#x73;&#120;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;">&#x7a;&#x68;&#x61;&#110;&#x67;&#115;&#x73;&#120;&#121;&#x7a;&#64;&#x78;&#120;&#x78;&#x2e;&#x63;&#x6f;&#109;</a>’的条件了，循环结束。</li>
 </ol>
 </li>
 <li>如果使用的是 index2（即 email(6) 索引结构），执行顺序是这样的：<ol>
-<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#122;&#x68;&#97;&#x6e;&#103;&#115;&#x73;&#x78;&#121;&#122;&#64;&#120;&#120;&#120;&#x2e;&#x63;&#x6f;&#109;">&#122;&#x68;&#97;&#x6e;&#103;&#115;&#x73;&#x78;&#121;&#122;&#64;&#120;&#120;&#120;&#x2e;&#x63;&#x6f;&#109;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
+<li>从 index2 索引树找到满足索引值是’zhangs’的记录，找到的第一个是 ID1；<br>2. 到主键上查到主键值是 ID1 的行，判断出 email 的值不是’<a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#120;&#46;&#99;&#111;&#x6d;">&#x7a;&#104;&#97;&#110;&#103;&#x73;&#x73;&#x78;&#121;&#x7a;&#64;&#x78;&#x78;&#120;&#46;&#99;&#111;&#x6d;</a>’，这行记录丢弃；<br>3. 取 index2 上刚刚查到的位置的下一条记录，发现仍然是’zhangs’，取出 ID2，再到 ID 索引上取整行然后判断，这次值对了，将这行记录加入结果集；<br>4. 重复上一步，直到在 idxe2 上取到的值不是’zhangs’时，循环结束。</li>
 </ol>
 </li>
 </ul>
-<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#x2e;&#x63;&#111;&#x6d;">&#x7a;&#104;&#97;&#110;&#103;&#115;&#x73;&#120;&#121;&#x7a;&#64;&#x78;&#x78;&#x78;&#x2e;&#x63;&#111;&#x6d;</a>‘;</p>
+<h4 id="前缀索引对覆盖索引的影响"><a href="#前缀索引对覆盖索引的影响" class="headerlink" title="前缀索引对覆盖索引的影响"></a>前缀索引对覆盖索引的影响</h4><p>select id,email from SUser where email&#x3D;‘<a href="mailto:&#x7a;&#x68;&#97;&#110;&#x67;&#115;&#115;&#x78;&#121;&#122;&#64;&#120;&#120;&#x78;&#46;&#x63;&#111;&#109;">&#x7a;&#x68;&#97;&#110;&#x67;&#115;&#115;&#x78;&#121;&#122;&#64;&#120;&#120;&#x78;&#46;&#x63;&#111;&#109;</a>‘;</p>
 <ul>
 <li>如果使用 index1（即 email 整个字符串的索引结构）的话，可以利用覆盖索引，从 index1 查到结果后直接就返回了，不需要回到 ID 索引再去查一次。而如果使用 index2（即 email(6) 索引结构）的话，就不得不回到 ID 索引再去判断 email 字段的值。</li>
 <li>如果使用index2 的定义修改为 email(18) 的前缀索引，这时候虽然 index2 已经包含了所有的信息，但 InnoDB 还是要回到 id 索引再查一下，因为系统并不确定前缀索引的定义是否截断了完整信息。</li>
@@ -1258,16 +1363,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
+              <time title="Creado por: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2022-06-12 10:35:57" itemprop="dateModified" datetime="2022-06-12T10:35:57+08:00">2022-06-12</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2022-06-12 10:35:57" itemprop="dateModified" datetime="2022-06-12T10:35:57+08:00">2022-06-12</time>
               </span>
 
           
@@ -1391,16 +1496,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
 
-              <time title="أُنشأ: 2022-05-23 23:41:00" itemprop="dateCreated datePublished" datetime="2022-05-23T23:41:00+08:00">2022-05-23</time>
+              <time title="Creado por: 2022-05-23 23:41:00" itemprop="dateCreated datePublished" datetime="2022-05-23T23:41:00+08:00">2022-05-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2022-05-25 18:25:08" itemprop="dateModified" datetime="2022-05-25T18:25:08+08:00">2022-05-25</time>
+                <span class="post-meta-item-text">Editado el</span>
+                <time title="Modificado por: 2022-05-25 18:25:08" itemprop="dateModified" datetime="2022-05-25T18:25:08+08:00">2022-05-25</time>
               </span>
 
           
@@ -1488,10 +1593,10 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Publicado el</span>
               
 
-              <time title="أُنشأ: 2022-05-23 21:37:44 / عُدل: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
+              <time title="Creado por: 2022-05-23 21:37:44 / Modificado por: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
             </span>
 
           
@@ -1577,10 +1682,10 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          المحتويات
+          Tabla de contenidos
         </li>
         <li class="sidebar-nav-overview">
-          عام
+          Inicio
         </li>
       </ul>
 
@@ -1601,8 +1706,8 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
-          <span class="site-state-item-name">المقالات</span>
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">entradas</span>
         </a>
       </div>
   </nav>
@@ -1635,7 +1740,7 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Creado mediante <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
