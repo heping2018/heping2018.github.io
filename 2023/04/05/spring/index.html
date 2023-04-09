@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://example.com/images/pasted-17.png">
 <meta property="og:image" content="http://example.com/images/pasted-18.png">
 <meta property="article:published_time" content="2023-04-05T12:20:00.000Z">
-<meta property="article:modified_time" content="2023-04-09T03:20:25.517Z">
+<meta property="article:modified_time" content="2023-04-09T03:23:29.726Z">
 <meta property="article:author" content="何平">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/pasted-11.png">
@@ -94,7 +94,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -123,12 +123,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Startseite</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archiv</a>
 
   </li>
   </ul>
@@ -183,16 +183,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2023-04-05 20:20:00" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
+              <time title="Erstellt: 2023-04-05 20:20:00" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-04-09 11:20:25" itemprop="dateModified" datetime="2023-04-09T11:20:25+08:00">2023-04-09</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-04-09 11:23:29" itemprop="dateModified" datetime="2023-04-09T11:23:29+08:00">2023-04-09</time>
               </span>
 
           
@@ -307,7 +307,7 @@
 <li>两者均针对特定特征的 Spring Bean 处理，如 RefreshScope 处理的是 scope 为 “refresh” 的 Bean，ConfigurationPropertiesRebinder 处理的是标注 @ConfigurationProperties 的 Bean，参考 ConfigurationPropertiesBeans 类</li>
 <li>两者均会对特定的 Spring Bean 做 destroy 操作</li>
 </ul>
-<h4 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h4><ul>
+<h5 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h5><ul>
 <li>RefreshScope 仅执行 destroy 操作，ConfigurationPropertiesRebinder 即执行 destroy 操作，又重新执行执行 initialize 操作</li>
 <li>当某个 Bean 即标注 @RefreshScope，又标注 @ConfigurationProperties 的话，ConfigurationPropertiesRebinder 将会排除该 Bean</li>
 <li>ConfigurationPropertiesRebinder 的 rebind 操作是由 EnvironmentChangeEvent 事件触发，而 RefreshScope 需要外部触发</li>
@@ -387,16 +387,16 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          المحتويات
+          Inhaltsverzeichnis
         </li>
         <li class="sidebar-nav-overview">
-          عام
+          Übersicht
         </li>
       </ul>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">spring 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot"><span class="nav-number">1.1.</span> <span class="nav-text">spring boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%E7%9A%84%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置方式的核心逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-profiles-active%E4%B8%8Edefault%E4%BA%92%E6%96%A5"><span class="nav-number">1.1.2.</span> <span class="nav-text">spring.profiles.active与default互斥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-cloud-config"><span class="nav-number">1.2.</span> <span class="nav-text">spring cloud config</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">客户端配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">自定义 Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E6%BA%90"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">自定义 Bootstrap 配置属性源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0-ConfigServicePropertySourceLocator"><span class="nav-number">1.2.2.</span> <span class="nav-text">底层实现 -ConfigServicePropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config-%E6%A0%B8%E5%BF%83-API-PropertySourceLocator"><span class="nav-number">1.2.3.</span> <span class="nav-text">Spring Cloud Config 核心 API-PropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">配置服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">传统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-config-%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.5.</span> <span class="nav-text">spring-cloud config 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.6.</span> <span class="nav-text">基于文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BF%9C%E7%A8%8Bgit%E4%BB%93%E5%BA%93"><span class="nav-number">1.2.7.</span> <span class="nav-text">基于远程git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.8.</span> <span class="nav-text">底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E8%BF%9E%E6%A8%A1%E5%BC%8F-org-springframework-cloud-config-server-environment-EnvironmentRepository"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">直连模式 - org.springframework.cloud.config.server.environment.EnvironmentRepository</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7Bean"><span class="nav-number">1.2.9.</span> <span class="nav-text">动态配置属性Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.1.</span> <span class="nav-text">RefreshEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnvironmentChangeEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.2.</span> <span class="nav-text">EnvironmentChangeEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope"><span class="nav-number">1.2.9.3.</span> <span class="nav-text">@RefreshScope</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConfigurationProperties"><span class="nav-number">1.2.9.4.</span> <span class="nav-text">@ConfigurationProperties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope-%E4%B8%8E-ConfigurationPropertiesRebinder-%E7%9A%84%E5%90%8C%E5%BC%82"><span class="nav-number">1.2.9.5.</span> <span class="nav-text">RefreshScope 与 ConfigurationPropertiesRebinder 的同异</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.5.1.</span> <span class="nav-text">相同点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.6.</span> <span class="nav-text">不同点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RefreshScope-%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-number">1.2.10.</span> <span class="nav-text">RefreshScope 的弊端</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">spring 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot"><span class="nav-number">1.1.</span> <span class="nav-text">spring boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%E7%9A%84%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置方式的核心逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-profiles-active%E4%B8%8Edefault%E4%BA%92%E6%96%A5"><span class="nav-number">1.1.2.</span> <span class="nav-text">spring.profiles.active与default互斥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-cloud-config"><span class="nav-number">1.2.</span> <span class="nav-text">spring cloud config</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">客户端配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">自定义 Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E6%BA%90"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">自定义 Bootstrap 配置属性源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0-ConfigServicePropertySourceLocator"><span class="nav-number">1.2.2.</span> <span class="nav-text">底层实现 -ConfigServicePropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config-%E6%A0%B8%E5%BF%83-API-PropertySourceLocator"><span class="nav-number">1.2.3.</span> <span class="nav-text">Spring Cloud Config 核心 API-PropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">配置服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">传统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-config-%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.5.</span> <span class="nav-text">spring-cloud config 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.6.</span> <span class="nav-text">基于文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BF%9C%E7%A8%8Bgit%E4%BB%93%E5%BA%93"><span class="nav-number">1.2.7.</span> <span class="nav-text">基于远程git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.8.</span> <span class="nav-text">底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E8%BF%9E%E6%A8%A1%E5%BC%8F-org-springframework-cloud-config-server-environment-EnvironmentRepository"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">直连模式 - org.springframework.cloud.config.server.environment.EnvironmentRepository</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7Bean"><span class="nav-number">1.2.9.</span> <span class="nav-text">动态配置属性Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.1.</span> <span class="nav-text">RefreshEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnvironmentChangeEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.2.</span> <span class="nav-text">EnvironmentChangeEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope"><span class="nav-number">1.2.9.3.</span> <span class="nav-text">@RefreshScope</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConfigurationProperties"><span class="nav-number">1.2.9.4.</span> <span class="nav-text">@ConfigurationProperties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope-%E4%B8%8E-ConfigurationPropertiesRebinder-%E7%9A%84%E5%90%8C%E5%BC%82"><span class="nav-number">1.2.9.5.</span> <span class="nav-text">RefreshScope 与 ConfigurationPropertiesRebinder 的同异</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.5.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.5.2.</span> <span class="nav-text">不同点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RefreshScope-%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-number">1.2.10.</span> <span class="nav-text">RefreshScope 的弊端</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -413,7 +413,7 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">10</span>
-          <span class="site-state-item-name">المقالات</span>
+          <span class="site-state-item-name">Artikel</span>
         </a>
       </div>
   </nav>
@@ -446,7 +446,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
