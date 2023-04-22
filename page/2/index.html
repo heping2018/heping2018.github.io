@@ -81,7 +81,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -110,12 +110,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Startseite</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archiv</a>
 
   </li>
   </ul>
@@ -148,6 +148,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/23/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/23/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3%E6%A8%A1%E6%9D%BF/" class="post-title-link" itemprop="url">架构设计文档模板</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+
+              <time title="Erstellt: 2022-05-23 23:41:00" itemprop="dateCreated datePublished" datetime="2022-05-23T23:41:00+08:00">2022-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2022-05-25 18:25:08" itemprop="dateModified" datetime="2022-05-25T18:25:08+08:00">2022-05-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h3 id="修订历史"><a href="#修订历史" class="headerlink" title="修订历史"></a>修订历史</h3><h3 id="业务背景-–"><a href="#业务背景-–" class="headerlink" title="业务背景 –"></a>业务背景 –</h3><p>[从以下常见的角度来回答，你准备构建或者重构系统的目的和所处的位置是什么，可以是 1 个角度，也可以是多个角度，一般挑选重点的 3 个目的就差不多了：1.解决什么问题；2.带来什么价值；3.实现什么目标；4.完成什么任务；5.处于什么地位]<br>[例如：<br>通达公司上级母公司是行业顶尖的物流配送企业，依托母公司的行业资源，我们将在全国多个主要城市开展一对一同城快送业务。本系统架构设计目标旨在快速利用公司现有资源，结合公司初期运营目标，开发一个能支持公司当下运营，也能支持公司未来发展的互联网应用系统。</p>
+<h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>通达系统的核心使用者为需要在同城快速递送物品的用户和提供快送服务的快递员，系统用例图如下：</p>
+<p><img src="/images/pasted-0.jpg"></p>
+<p>用户可以通过用户 App 创建快送订单，输入取件地址和收件地址，以及取件人、收件人联系方式后，系统预估订单金额，用户确认后，跳转到第三方支付页面等待用户支付。<br>快递员 App 实时上报自己当前位置。用户支付后，系统将订单发送给取件地点附近的所有快递员，快递员自主决定是否要抢单。系统会将用户订单信息推送给抢单成功的快递员 APP，快递员根据收件地点上门取件并完成配送。</p>
+<p>订单管理是系统的核心功能，因此系统需要设计开发专门的订单管理模块，具体的订单状态模型图如下：</p>
+<p><img src="/images/pasted-0.png"></p>
+<p>用户点击确认创建订单后，订单状态为“待支付”，用户完成支付后，订单状态为“已支付”。如果用户支付失败或者超时未支付，订单状态为“超时未支付”，超时未支付状态为订单最终状态之一，此状态订单不可以再修改操作。</p>
+<p>“已支付”状态订单发送给附近快递员，如果有快递员抢单成功，订单状态为“待取件”。如果快递员上门联系不到发件人，快递员在 APP 拍照输入取件失败证据，订单状态改为“取件失败”。如果快递员上门取件成功，快递员在 APP 点击确认取件，订单状态改为“配送中”。</p>
+<p>送达目的地后，如果联系不到收件人，快递员在 APP 拍照输入送件失败证据，订单状态改为“配送失败”，如果配送成功，订单状态改为“已配送”。</p>
+<h6 id="非功能需求："><a href="#非功能需求：" class="headerlink" title="非功能需求："></a>非功能需求：</h6><p>系统设计需要在上线后支持日订单量 50 万订单，一年后支持日订单量 300 万订单。<br>]</p>
+<h3 id="总体架构"><a href="#总体架构" class="headerlink" title="总体架构"></a>总体架构</h3><p>[描述经过备选架构决策后定下来的架构方案，这一章主要是描述架构的 3R：Rank、Role、Relation]<br>[技巧：1. 系统边界白盒图描述系统内的角色与外界的交互(Rank + Role + 外部 Relation)；2. 系统架构图来描述内部的 Role + 内部 Relation]</p>
+<h4 id="架构分析"><a href="#架构分析" class="headerlink" title="架构分析"></a>架构分析</h4><p>[可选，这部分主要是架构复杂度的分析，基本上从备选架构文档中提炼关键内容过来即可]<br>[样例：<br>消息高可用；订单消息丢失，用户未收到订单信息，导致用户流失从而损失收入。<br>快递员位置存储：快递员位置每3秒上报，数据量大，且不关键，用内存性数据库存储即可。<br>数据库主从：<br>        1.采用主从防止数据丢失，从库备份<br>        2.考虑未来一年支持300万订单量，采用读写分离。<br>]</p>
+<h4 id="总体架构-1"><a href="#总体架构-1" class="headerlink" title="总体架构"></a>总体架构</h4><p>[技巧：<br>1.用系统架构图来描述架构，如果是前端或者客户端，用前端架构图或客户端架构图来描述架构<br>2.基于架构图中的内容，使用文字描述 Role、Relation 的基本内容，文档目录可以自由调整</p>
+<p>]<br>[例如：</p>
+<p>系统采用目前主流的微服务架构体系</p>
+<p><img src="/images/pasted-1.png"></p>
+<p>1.用户和快递员的请求通过负载均衡服务器进入网关服务器集群，网关服务器集群调用具体微服务完成请求处理。</p>
+<p>2.用户微服务负责用户注册，个人资料修改，账户充值等业务逻辑，同时，用户所有操作都通过用户微服务集中处理，由用户微服务调用其他服务完成业务逻辑，包括下单、支付等。</p>
+<p>3.快递员微服务负责为快递员提供服务，包括快递员注册、认证等，也包括快递员抢单、确认收件成功及失败、确认配送成功及失败等。</p>
+<p>4.订单微服务负责订单生命周期管理，订单创建以及所有订单状态变更全部调用订单微服务来完成。所以用户微服务和快递员微服务需要依赖订单微服务。</p>
+<p>5.配单微服务负责将用户订单推送给附近的所有快递员，即为订单匹配快递员。一方面，配单微服务需要记录所有快递员的当前位置，快递员位置信息通过快递员 APP 每 3 秒定时上传到网关服务器，网关服务器直接调用配单微服务，配单微服务将当前快递员位置信息更新到 Redis 中。<br>另一方面，配单微服务需要得到用户最新成功支付的订单信息。用户微服务在用户成功支付后，将订单信息发送给消息队列服务器，配单服务器作为消息消费者获取订单信息。配单服务器匹配到订单取件位置 5 公里范围内所有快递员，通过消息推送服务器将订单信息推送给快递员，等待快递员抢单。</p>
+<p>6.系统使用关系数据库记录用户、快递员信息，以及订单信息，关系数据库采用主从复制同步的方式进行双机部署，订单写操作通过主数据库完成，订单读操作通过从数据库完成。<br>]</p>
+<h3 id="详细设计"><a href="#详细设计" class="headerlink" title="详细设计"></a>详细设计</h3><h4 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h4><p>[描述核心场景或者流程的实现机制]<br>[例如<br>下单抢单逻辑是系统的核心逻辑，具体处理活动图如下：</p>
+<p><img src="/images/pasted-2.png" alt="upload successful"></p>
+<p>订单处理涉及到的角色泳道包括用户、用户微服务、订单微服务、配单微服务、快递员微服务、快递员。</p>
+<p>用户调用用户微服务请求创建订单，用户微服务调用订单微服务完成创建订单。订单微服务返回订单创建成功后，用户微服务发起支付，用户 APP 端跳转到第三方支付，用户微服务等待第三方支付回调。</p>
+<p>收到第三方支付回调结果后，如果支付成功，调用订单微服务修改订单状态为“已支付”。同时将订单信息通过消息队列异步发送给配单微服务。配单微服务实时接受快递员上报的位置信息，根据订单信息，匹配附近的快递员。</p>
+<p>匹配到符合条件的快递员后，发送订单信息给快递员。快递员收到推送的订单信息后，决定是否要抢单。快递员点下抢单按钮后，请求发送给快递员微服务，快递员微服务可能会同时收到多个快递员的抢单请求，所以抢单请求需要加锁顺序操作，保证第一个到达系统的抢单请求能成功抢单。</p>
+<p>由于快递员微服务是集群部署，所以需要使用外部锁来保证请求的顺序性，系统使用 Redis 完成锁操作。抢单成功的请求调用订单微服务，更新订单状态为“已配单”，并发送收件地址给快递员，快递员根据地址上门取件。<br>]</p>
+<h4 id="关键设计"><a href="#关键设计" class="headerlink" title="关键设计"></a>关键设计</h4><p>[例如：<br>抢单的锁实现通过调用 Redis 的 CAS 命令来实现，具体过程为：<br>1.订单支付完成后，配单微服务收到订单消息，立即在 Redis 中创建一个 &lt; 订单 ID，-1&gt; 的键值对；<br>2.快递员抢单的时候，调用 Redis 的 CAS 命令：CAS &lt; 订单 ID&gt; &lt;-1&gt; &lt; 快递员 ID&gt;，该命令比较订单 ID 的 value 是否为 -1，如果是 -1，就将 value 设置为当前快递员 ID；<br>3.只有第一个快递员调用的时候 value 为 -1，才能设置成功，也就是能抢单成功，并且记录下来抢单成功的快递员 ID。其他抢单请求都返回 CAS 失败。<br>]</p>
+<h3 id="设计规范"><a href="#设计规范" class="headerlink" title="设计规范"></a>设计规范</h3><p>[例如：<br>1.开发语言采用 Java 开发实现，APP 端支持安卓和 IOS 两种系统。<br>2.负载均衡服务器采用 Nginx 部署。<br>3.网关采用 SpringBoot 开发，系统上线时，订单量较小，网关服务器采用双机部署，未来根据系统负载压力和监控指标进行扩容。<br>4.微服务框架采用 Dubbo，每个微服务至少部署 3 个实例，并根据监控指标动态扩容。<br>5.消息队列采用 ActiveMQ 部署。<br>6.数据库采用 MySQL 并配置主从复制，实现读写分离。<br>7.缓存使用 Redis，Redis 记录快递员实时位置信息并实现抢单加锁操作<br>]</p>
+<h3 id="质量设计"><a href="#质量设计" class="headerlink" title="质量设计"></a>质量设计</h3><p>[<br>描述和质量相关的设计，包括：可测试性、可维护性、可观测性、成本等设计<br>]<br>[例如：消息队列管理后台<br>]</p>
+<h3 id="演进规划"><a href="#演进规划" class="headerlink" title="演进规划"></a>演进规划</h3><p>[<br>可以是演进规划，也可以是项目计划，需要描述每个里程碑或者版本具体要实现的能力<br>]<br>[例如：<br>消息队列一期<br>消息队列二期<br>]</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/23/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,10 +267,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
-              <time title="Created: 2022-05-23 21:37:44 / Modified: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
+              <time title="Erstellt: 2022-05-23 21:37:44 / Geändert am: 21:20:38" itemprop="dateCreated datePublished" datetime="2022-05-23T21:37:44+08:00">2022-05-23</time>
             </span>
 
           
@@ -218,7 +315,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Vorherige Seite"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 
@@ -262,10 +359,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          Inhaltsverzeichnis
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          Übersicht
         </li>
       </ul>
 
@@ -286,8 +383,8 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">Artikel</span>
         </a>
       </div>
   </nav>
@@ -320,7 +417,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
