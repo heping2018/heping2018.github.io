@@ -20,22 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="问题数据写入磁盘需要经过操作系统的内存，系统内存写入磁盘的过程是 “正在写”的过程，“未写入”-&gt; “正在写”-&gt; “已写入” 这三个过程不是原子性的，如果多条数据在一个事务中处于在“正在写”的过程，服务宕机，内存的数据丢失，部分数据写入到磁盘，原子性和持久性被破坏。 日志redo logredo log 存在三种状态  存在 redo log buffer 中，物理上是在 MySQL">
+  <meta name="description" content="开源客户端 zkClient 1234567891011&lt;dependency&gt;    &lt;groupId&gt;org.apache.zookeeper&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;zookeeper&lt;&#x2F;artifactId&gt;    &lt;version&gt;$&amp;#123;zookeeper.version&amp;#125;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql InnoDB引擎 原子性和持久性">
-<meta property="og:url" content="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/index.html">
+<meta property="og:title" content="Zookeeper 使用">
+<meta property="og:url" content="http://example.com/2023/05/03/Zookeeper-%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="问题数据写入磁盘需要经过操作系统的内存，系统内存写入磁盘的过程是 “正在写”的过程，“未写入”-&gt; “正在写”-&gt; “已写入” 这三个过程不是原子性的，如果多条数据在一个事务中处于在“正在写”的过程，服务宕机，内存的数据丢失，部分数据写入到磁盘，原子性和持久性被破坏。 日志redo logredo log 存在三种状态  存在 redo log buffer 中，物理上是在 MySQL">
+<meta property="og:description" content="开源客户端 zkClient 1234567891011&lt;dependency&gt;    &lt;groupId&gt;org.apache.zookeeper&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;zookeeper&lt;&#x2F;artifactId&gt;    &lt;version&gt;$&amp;#123;zookeeper.version&amp;#125;">
 <meta property="og:locale">
-<meta property="og:image" content="http://example.com/images/pasted-6.png">
-<meta property="og:image" content="http://example.com/images/pasted-7.png">
-<meta property="article:published_time" content="2022-05-29T02:57:24.000Z">
-<meta property="article:modified_time" content="2022-05-29T03:27:49.890Z">
+<meta property="article:published_time" content="2023-05-03T13:04:10.000Z">
+<meta property="article:modified_time" content="2023-05-03T13:04:24.462Z">
 <meta property="article:author" content="何平">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/pasted-6.png">
 
-<link rel="canonical" href="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/">
+<link rel="canonical" href="http://example.com/2023/05/03/Zookeeper-%E4%BD%BF%E7%94%A8/">
 
 
 <script id="page-configurations">
@@ -48,7 +45,7 @@
   };
 </script>
 
-  <title>mysql InnoDB引擎 原子性和持久性 | Hexo</title>
+  <title>Zookeeper 使用 | Hexo</title>
   
 
 
@@ -156,7 +153,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/03/Zookeeper-%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +166,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          mysql InnoDB引擎 原子性和持久性
+          Zookeeper 使用
         </h1>
 
         <div class="post-meta">
@@ -180,7 +177,7 @@
               <span class="post-meta-item-text">نُشر في</span>
               
 
-              <time title="أُنشأ: 2022-05-29 10:57:24 / عُدل: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
+              <time title="أُنشأ: 2023-05-03 21:04:10 / عُدل: 21:04:24" itemprop="dateCreated datePublished" datetime="2023-05-03T21:04:10+08:00">2023-05-03</time>
             </span>
 
           
@@ -194,42 +191,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>数据写入磁盘需要经过操作系统的内存，系统内存写入磁盘的过程是 “正在写”的过程，“未写入”-&gt; “正在写”<br>-&gt; “已写入” 这三个过程不是原子性的，如果多条数据在一个事务中处于在“正在写”的过程，服务宕机，内存的数据丢失，部分数据写入到磁盘，原子性和持久性被破坏。</p>
-<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><h4 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h4><p><img src="/images/pasted-6.png"><br>redo log 存在三种状态</p>
+        <h3 id="开源客户端"><a href="#开源客户端" class="headerlink" title="开源客户端"></a>开源客户端</h3><ul>
+<li><p>zkClient</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;zookeeper.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.sgroschupf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;zkclient.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Curator</p>
 <ul>
-<li>存在 redo log buffer 中，物理上是在 MySQL 进程内存中，就是图中的红色部分；</li>
-<li>写到磁盘 (write)，但是没有持久化（fsync)，物理上是在文件系统的 page cache 里面，也就是图中的黄色部分；</li>
-<li>持久化到磁盘，对应的是 hard disk，也就是图中的绿色部分。</li>
+<li>基础操作 增删改查</li>
 </ul>
-<p>为了控制 redo log 的写入策略，InnoDB 提供了 innodb_flush_log_at_trx_commit 参数，它有三种可能取值：</p>
-<ul>
-<li>设置为 0 的时候，表示每次事务提交时都只是把 redo log 留在 redo log buffer 中 ;</li>
-<li>设置为 1 的时候，表示每次事务提交时都将 redo log 直接持久化到磁盘；</li>
-<li>设置为 2 的时候，表示每次事务提交时都只是把 redo log 写到 page cache。</li>
-</ul>
-<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><p>binlog 的写入逻辑比较简单：事务执行过程中，先把日志写到 binlog cache，事务提交的时候，再把 binlog cache 写到 binlog 文件中。</p>
-<p>一个事务的 binlog 是不能被拆开的，因此不论这个事务多大，也要确保一次性写入。这就涉及到了 binlog cache 的保存问题。</p>
-<p>系统给 binlog cache 分配了一片内存，每个线程一个，参数 binlog_cache_size 用于控制单个线程内 binlog cache 所占内存的大小。如果超过了这个参数规定的大小，就要暂存到磁盘。</p>
-<p><img src="/images/pasted-7.png"><br>write 和 fsync 的时机，是由参数 sync_binlog 控制的：</p>
-<ul>
-<li>sync_binlog&#x3D;0 的时候，表示每次提交事务都只 write，不 fsync；</li>
-<li>sync_binlog&#x3D;1 的时候，表示每次提交事务都会执行 fsync；</li>
-<li>sync_binlog&#x3D;N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync。</li>
-</ul>
-<h3 id="两个日志的理解"><a href="#两个日志的理解" class="headerlink" title="两个日志的理解"></a>两个日志的理解</h3><p>执行器和 InnoDB 引擎在执行这个简单的 update 语句时的内部流程。</p>
-<ol>
-<li><p>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。</p>
-</li>
-<li><p>如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。<br><code>如果这里发生宕机,事务没有提交不会，数据恢复，不会有数据记录，符合原子性</code></p>
-</li>
-<li><p>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。<br><code>如果这里发生宕机,redo log 没有提交记录，数据恢复不会包含这提交数据，符合原子性</code></p>
-</li>
-<li><p>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</p>
-</li>
-<li><p>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。<br><code>如果这里发生宕机,redo log 有提交记录，数据恢复会包含这提交数据，符合原子性</code></p>
-</li>
-</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-framework<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;curator.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p>高级操作</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.curator<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>curator-recipes<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;curator.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>事件监听<ul>
+<li>节点本身变更</li>
+<li>子节点的变更</li>
+</ul>
+</li>
+<li>分布式锁</li>
+<li>分布式计数器</li>
+<li>分布式Barrier</li>
+</ul>
+</li>
+<li><p>工具</p>
+<ul>
+<li>zkPaths</li>
+<li>EnurePath</li>
+<li>TestServer</li>
+<li>TestingCluster</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="典型应用场景"><a href="#典型应用场景" class="headerlink" title="典型应用场景"></a>典型应用场景</h3><h4 id="数据发布订阅"><a href="#数据发布订阅" class="headerlink" title="数据发布订阅"></a>数据发布订阅</h4><ul>
+<li>配置变更 – 推拉结合</li>
+</ul>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><ul>
+<li>动态dns配置<ul>
+<li>域名配置</li>
+<li>域名解析</li>
+<li>域名变更</li>
+</ul>
+</li>
+</ul>
+<h4 id="命名服务"><a href="#命名服务" class="headerlink" title="命名服务"></a>命名服务</h4><ul>
+<li>利用顺序节点</li>
+</ul>
+<h4 id="分布式协调-x2F-通知"><a href="#分布式协调-x2F-通知" class="headerlink" title="分布式协调&#x2F;通知"></a>分布式协调&#x2F;通知</h4><ul>
+<li>数据复制<ul>
+<li>任务注册</li>
+<li>任务热备份<ul>
+<li>利用顺序节点</li>
+</ul>
+</li>
+<li>热备切换</li>
+<li>记录任务状态</li>
+<li>控制台协调</li>
+<li>冷备切换</li>
+</ul>
+</li>
+<li>一种通用的分布式系统机器间的通信方式<ul>
+<li>心跳监测</li>
+<li>工作进度汇报</li>
+<li>系统调度</li>
+</ul>
+</li>
+</ul>
+<h4 id="集群管理"><a href="#集群管理" class="headerlink" title="集群管理"></a>集群管理</h4><ul>
+<li>集群监控<ul>
+<li>分布式日志收集系统 – 使用持久化节点<ul>
+<li>注册收集器机器</li>
+<li>任务分发</li>
+<li>状态汇报</li>
+<li>动态分配<ul>
+<li>全局动态分配</li>
+<li>局部动态分配</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>集群控制<ul>
+<li>在线云主机管理<ul>
+<li>机器上下线</li>
+<li>机器监控</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="master选举"><a href="#master选举" class="headerlink" title="master选举"></a>master选举</h4><h4 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h4><ul>
+<li>排他锁 – 临时节点<ul>
+<li>定义锁</li>
+<li>获取锁  - create</li>
+<li>释放锁<ul>
+<li>客户端宕机移除</li>
+<li>正常完成删除</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>共享锁 – 顺序节点<ul>
+<li>读锁</li>
+<li>写锁<ul>
+<li>羊群效应</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="分布式队列"><a href="#分布式队列" class="headerlink" title="分布式队列"></a>分布式队列</h4>
     </div>
 
     
@@ -244,12 +320,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/05/28/Mysql%E9%94%81/" rel="prev" title="Mysql锁">
-      <i class="fa fa-chevron-left"></i> Mysql锁
+    <a href="/2023/04/22/JTA%E7%90%86%E8%A7%A3/" rel="prev" title="JTA理解">
+      <i class="fa fa-chevron-left"></i> JTA理解
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/06/03/%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%E4%B8%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%AF%94%E8%BE%83/" rel="next" title="中间件比较">
-      中间件比较 <i class="fa fa-chevron-right"></i>
+    <a href="/2023/05/03/zookeeper-%E5%9C%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%92%8C%E5%BA%94%E7%94%A8/" rel="next" title="zookeeper 在阿里巴巴的实践和应用">
+      zookeeper 在阿里巴巴的实践和应用 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -309,7 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97"><span class="nav-number">2.</span> <span class="nav-text">日志</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#redo-log"><span class="nav-number">2.1.</span> <span class="nav-text">redo log</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#binlog"><span class="nav-number">3.</span> <span class="nav-text">binlog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%97%A5%E5%BF%97%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">两个日志的理解</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E6%BA%90%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text">开源客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">典型应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85"><span class="nav-number">2.1.</span> <span class="nav-text">数据发布订阅</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">2.2.</span> <span class="nav-text">负载均衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.</span> <span class="nav-text">命名服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83-x2F-%E9%80%9A%E7%9F%A5"><span class="nav-number">2.4.</span> <span class="nav-text">分布式协调&#x2F;通知</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86"><span class="nav-number">2.5.</span> <span class="nav-text">集群管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#master%E9%80%89%E4%B8%BE"><span class="nav-number">2.6.</span> <span class="nav-text">master选举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.7.</span> <span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%98%9F%E5%88%97"><span class="nav-number">2.8.</span> <span class="nav-text">分布式队列</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
