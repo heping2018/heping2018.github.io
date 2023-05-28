@@ -22,14 +22,14 @@
 
   <meta name="description" content="ACID事务保证原子性：在同一个业务处理过程中，事务保证了对多个数据得修改，要么同时成功，要么同时被撤销。 隔离性：在不同业务处理过程中，事务保证了各业务正在读，写得数据相互独立，不会彼此影响。 持久性：事务应当保证成功被提交得数据修改都能够正确得持久化，不会丢失。 一致性：数据始终处于合法状态 内部事务   当一个服务只使用一个数据源时，当多个并发事务所读写得数据能够被数据源感知是否存在冲突，并">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决分布式事务">
+<meta property="og:title" content="分布式事务">
 <meta property="og:url" content="http://example.com/2022/05/25/%E8%A7%A3%E5%86%B3%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="ACID事务保证原子性：在同一个业务处理过程中，事务保证了对多个数据得修改，要么同时成功，要么同时被撤销。 隔离性：在不同业务处理过程中，事务保证了各业务正在读，写得数据相互独立，不会彼此影响。 持久性：事务应当保证成功被提交得数据修改都能够正确得持久化，不会丢失。 一致性：数据始终处于合法状态 内部事务   当一个服务只使用一个数据源时，当多个并发事务所读写得数据能够被数据源感知是否存在冲突，并">
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/images/pasted-3.png">
 <meta property="article:published_time" content="2022-05-25T10:32:17.000Z">
-<meta property="article:modified_time" content="2022-06-12T02:35:57.613Z">
+<meta property="article:modified_time" content="2023-05-28T02:39:46.232Z">
 <meta property="article:author" content="何平">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/pasted-3.png">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>解决分布式事务 | Hexo</title>
+  <title>分布式事务 | Hexo</title>
   
 
 
@@ -87,7 +87,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -121,7 +121,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
 
   </li>
   </ul>
@@ -168,7 +168,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          解决分布式事务
+          分布式事务
         </h1>
 
         <div class="post-meta">
@@ -176,16 +176,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
+              <span class="post-meta-item-text">نُشر في</span>
 
-              <time title="Created: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
+              <time title="أُنشأ: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-06-12 10:35:57" itemprop="dateModified" datetime="2022-06-12T10:35:57+08:00">2022-06-12</time>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2023-05-28 10:39:46" itemprop="dateModified" datetime="2023-05-28T10:39:46+08:00">2023-05-28</time>
               </span>
 
           
@@ -231,8 +231,9 @@
 <p>  Try：尝试执行阶段，完成所有业务的可执行检查，并且预留好全部需要资源（保障隔离性）。</p>
 <p>  Confirm: 确认执行阶段，不进行任何业务检查，直接使用Try阶段准备的资源来完成业务处理。Confirm阶段可能会重复执行，因此本阶段执行的操作需要具有幂等性。</p>
 <p>  Cannel：取消执行阶段，释放Try阶段预留的业务资源。onfirm阶段可能会重复执行，因此本阶段执行的操作需要具有幂等性。</p>
-<p>  空回滚</p>
-<p>  防悬挂控制</p>
+<p>  空回滚: 是在没有执行 Try 方法的情况下，TC 下发了回滚指令并执行了 Cancel 逻辑。</p>
+<p>  防悬挂控制: 如果 Try 方法因为网络问题卡在了网关层，导致锁定资源超时，这时 Cancel 阶段执行了一次空回滚，到目前为止一切正常。但回滚之后，原先超时的 Try 方法经过网关层的重试，又被后台服务接收到了，这就产生了一次倒悬场景，即一阶段 Try 在二阶段回滚之后被触发。</p>
+<p>  <code>解决方案：引入独立的事务控制表，在 Try 阶段中将 XID 和分支事务 ID 落表保存，如果 Cancel 阶段查不到事务控制记录，那么就说明 Try 阶段未被执行。同理，Cancel 阶段执行成功后，也可以在事务控制表中记录回滚状态。 </code></p>
 <p>  幂等设计 </p>
 <h3 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h3><p>Saga是一种微服务架构中维护数据一致性的机制，一个Saga表示需要更新多个服务中数据的一个系统操作，Saga由连串的本地事务组成。</p>
 <h4 id="解决隔离性问题"><a href="#解决隔离性问题" class="headerlink" title="解决隔离性问题"></a>解决隔离性问题</h4><p>Saga缺乏ACID事务的隔离性，因为一旦该事务提交，每个Saga的本地事务所做的更新都会立即被其他Saga看到。<br>事实上，可以任务Saga只满足ACD三个属性：</p>
@@ -339,10 +340,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          Table of Contents
+          المحتويات
         </li>
         <li class="sidebar-nav-overview">
-          Overview
+          عام
         </li>
       </ul>
 
@@ -365,7 +366,7 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">15</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">المقالات</span>
         </a>
       </div>
   </nav>
@@ -398,7 +399,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
