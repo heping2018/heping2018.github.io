@@ -29,7 +29,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/images/pasted-3.png">
 <meta property="article:published_time" content="2022-05-25T10:32:17.000Z">
-<meta property="article:modified_time" content="2023-08-26T23:38:24.564Z">
+<meta property="article:modified_time" content="2023-08-26T23:55:25.322Z">
 <meta property="article:author" content="何平">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/pasted-3.png">
@@ -87,7 +87,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح">
+    <div class="toggle" aria-label="Toggle navigation bar">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -121,7 +121,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
   </ul>
@@ -176,16 +176,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Posted on</span>
 
-              <time title="أُنشأ: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
+              <time title="Created: 2022-05-25 18:32:17" itemprop="dateCreated datePublished" datetime="2022-05-25T18:32:17+08:00">2022-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-08-27 07:38:24" itemprop="dateModified" datetime="2023-08-27T07:38:24+08:00">2023-08-27</time>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-08-27 07:55:25" itemprop="dateModified" datetime="2023-08-27T07:55:25+08:00">2023-08-27</time>
               </span>
 
           
@@ -225,7 +225,7 @@
 <li>删除数据时：DELETE_VERSION记录插入数据事务ID，CREATE_VERSION为空。</li>
 <li>修改数据时：将修改数据视为：“删除旧数据，插入新数据”的组合，即先将原有数据复制一份，原有数据的DELETE_VERSION记录修改数据的事务ID，CREATE_VERSION为空，复制后的新数据的CREATE_VERSION记录修改数据的事务ID，DELETE_VERSION为空。</li>
 </ul>
-<h2 id="外部事务-1"><a href="#外部事务-1" class="headerlink" title="外部事务"></a>外部事务</h2><h3 id="全局事务"><a href="#全局事务" class="headerlink" title="全局事务"></a>全局事务</h3><pre><code>二阶段提交  x/open协议  强一致性ACID
+<h2 id="外部事务-1"><a href="#外部事务-1" class="headerlink" title="外部事务"></a>外部事务</h2><h3 id="全局事务"><a href="#全局事务" class="headerlink" title="全局事务"></a>全局事务</h3><pre><code>二阶段提交  x/open协议  强一致性ACID  单服务对应多个数据库
 </code></pre>
 <h3 id="共享事务"><a href="#共享事务" class="headerlink" title="共享事务"></a>共享事务</h3><h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><h4 id="可靠消息队列"><a href="#可靠消息队列" class="headerlink" title="可靠消息队列"></a>可靠消息队列</h4><p>   事务一致性分发箱</p>
 <h4 id="TCC事务"><a href="#TCC事务" class="headerlink" title="TCC事务"></a>TCC事务</h4><p>  可靠消息队列虽然能够保证最终结果的相对可靠性，过程也足够简单，但整个过程完全没有任何隔离性可言，虽然在一些业务中隔离性是无关紧要的，但在有些业务中缺乏隔离性就会带来许多麻烦，如两个客户在短时间都成功购买了同一件商品，而且各自购买的数量都不超过目前的库存，但他们购买的数量之和却超过库存。如果这件事情属于刚性事务，且隔离级别足够是可以完全避免。</p>
@@ -342,10 +342,10 @@
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          المحتويات
+          Table of Contents
         </li>
         <li class="sidebar-nav-overview">
-          عام
+          Overview
         </li>
       </ul>
 
@@ -368,7 +368,7 @@
           <a href="/archives/">
         
           <span class="site-state-item-count">15</span>
-          <span class="site-state-item-name">المقالات</span>
+          <span class="site-state-item-name">posts</span>
         </a>
       </div>
   </nav>
@@ -401,7 +401,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
