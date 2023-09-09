@@ -1319,7 +1319,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-02-08 22:28:15" itemprop="dateModified" datetime="2023-02-08T22:28:15+08:00">2023-02-08</time>
+                <time title="Modified: 2023-09-09 16:51:17" itemprop="dateModified" datetime="2023-09-09T16:51:17+08:00">2023-09-09</time>
               </span>
 
           
@@ -1335,23 +1335,179 @@
       
           <p>docker</p>
 <p>Containerd </p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
-<li>master： k8s集群得管理节点，负责管理集群，提供集群得资源数据访问入口。拥有Etcd存储服务，运行Api-server进程，Controller Manager 服务进程以及Scheduler服务进程。</li>
-<li>node: node是kubernetes集群架构中运行Pod的服务节点，是kubernetes集群操作的单元，用来承载被分配Pod的运行，是Pod的宿主机</li>
-<li>pod：运行在Node节点上，使用相同的网络的命名空间，IP地址和端口，能够通过localhoast进行通信，Pod是k8s创建，调度和管理的最小单位，它提供了比容器更高层次的抽象，使得部署和管理更加灵活，一个pod可以包含一个容器或者多个容器。</li>
+<h2 id="Api对象"><a href="#Api对象" class="headerlink" title="Api对象"></a>Api对象</h2><h3 id="TypeMeta"><a href="#TypeMeta" class="headerlink" title="TypeMeta"></a>TypeMeta</h3><ul>
+<li>GROUP<br>将对象依据其功能范围归入不同的组	</li>
+<li>kind<br>定义一个对象的类型</li>
+<li>Version<h3 id="MetaData"><a href="#MetaData" class="headerlink" title="MetaData"></a>MetaData</h3></li>
+<li>name ：名称</li>
+<li>namespace：用于实现多租户的资源隔离，可将集群内部的资源对象分配到不同的Namespace中，形成逻辑的不同项目或用户组，便于不同Namespace在共享使用整个集群的资源的同时还被分别管理。<blockquote>
+<blockquote>
+<p>name和namespace 定义唯一的对象</p>
+</blockquote>
+</blockquote>
+</li>
 <li>label：k8s中label实质是一系列得key&#x2F;value键值对，其中key与value可自定义。Label可以附加到各种资源对象上，如Node，Pod，Service,Rc等。一个资源对象可以定义任意数量得label，同一个Label也可以被添加到任意数量的资源对象上去，k8s通过Label selector 查询和筛选资源对象。</li>
-<li>Relication Controller：用来管理Pod得副本，保证集群中存在指定数量得Pod得副本，如果，集群中副本得数量大于指定数量，则会停止指定数量之外得多余容器，反之，则会启动少于指定数量个数容器，保证数量不变，是实现弹性伸缩，动态扩容，滚动升级得核心。</li>
-<li>Deployment: 内部使用RS来实现目的，Deployment相当与RC得一次升级，其最大得特色为可以随时获取当前Pod部署进度。</li>
-<li>HPA：Pod得横向自动扩容，也是k8s得一种资源，通过追踪分析RC控制得所有Pod目标得负载变化情况，来确定是否需要针对性得调整Pod副本数量。</li>
-<li>Service：服务发现，定义了Pod得逻辑集合和访问该集合得策略，是真实服务得抽象，service提供了统一服务访问入口以及服务代理和发现机制，关联多个相同Label得Pod，用户不需要了解后台得pod得如何运行。</li>
-<li>Volume：Volume是pod中能够被多个容器访问的共享目录，k8s是volume是定义在Pod上，可以被一个或多个Pod的容器挂载到某个目录上。</li>
-<li>namespace：用于实现多租户的资源隔离，可将集群内部的资源对象分配到不同的Namespace中，形成逻辑的不同项目或用户组，便于不同Namespace在共享使用整个集群的资源的同时还被分别管理。</li>
+<li>Annotation：用户可以自定义任意附加信息 key&#x2F;value键值对。</li>
+<li>Finalizer: 资源锁，kubernetes在接收某对象的删除请求时，会检查Finalizer是否为空，如果不为空则只对其做逻辑删除，即只会更新对象中metadata.deletionTimestamp。</li>
+<li>ResoureceVersion: 乐观锁，每一个对象在任意时刻都有ResoureceVersion，当kubernetes对象被客户端读取以后，ResoureceVersion一并读取，此机制确保分布式系统中任意多线程能够无锁并发访问对象，极大的提升系统的整体效率。<h3 id="Spec"><a href="#Spec" class="headerlink" title="Spec"></a>Spec</h3>用户期望状态，由用户对象创建<h3 id="Status"><a href="#Status" class="headerlink" title="Status"></a>Status</h3>对象的实际状态，由对应的控制器收集实际状态并更新</li>
+</ul>
+<h2 id="对象分组"><a href="#对象分组" class="headerlink" title="对象分组"></a>对象分组</h2><table>
+<thead>
+<tr>
+<th align="center">范围</th>
+<th align="center">group</th>
+<th align="center">版本</th>
+<th align="center">对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">策略管理</td>
+<td align="center">rbac</td>
+<td align="center">v1</td>
+<td align="center">Role&#x2F;RoleBinding&#x2F;ClusterRole&#x2F;ClusterRoleBinding</td>
+</tr>
+<tr>
+<td align="center">策略管理</td>
+<td align="center">extensions</td>
+<td align="center">v1beta1</td>
+<td align="center">PodSecurityPolicy</td>
+</tr>
+<tr>
+<td align="center">策略管理</td>
+<td align="center">networking</td>
+<td align="center">v1</td>
+<td align="center">NetworkPolicy</td>
+</tr>
+<tr>
+<td align="center">自动化</td>
+<td align="center">autoscaling</td>
+<td align="center">v2beta1</td>
+<td align="center">HorizontalPodAutoscaler</td>
+</tr>
+<tr>
+<td align="center">自动化</td>
+<td align="center">policy</td>
+<td align="center">v1beta1</td>
+<td align="center">PodDisruptionBudget</td>
+</tr>
+<tr>
+<td align="center">自动化</td>
+<td align="center">settings.k8s.io</td>
+<td align="center">v1alpha1</td>
+<td align="center">PodPreset</td>
+</tr>
+<tr>
+<td align="center">服务发布</td>
+<td align="center">core</td>
+<td align="center">v1</td>
+<td align="center">service</td>
+</tr>
+<tr>
+<td align="center">服务发布</td>
+<td align="center">extension</td>
+<td align="center">v1beta1</td>
+<td align="center">ingress</td>
+</tr>
+<tr>
+<td align="center">应用管理</td>
+<td align="center">app</td>
+<td align="center">v1</td>
+<td align="center">statefulSet&#x2F;Deployment&#x2F;DaemonSet&#x2F;ReplicaSet</td>
+</tr>
+<tr>
+<td align="center">应用管理</td>
+<td align="center">batch</td>
+<td align="center">v1</td>
+<td align="center">job</td>
+</tr>
+<tr>
+<td align="center">应用管理</td>
+<td align="center">batch</td>
+<td align="center">v2alpha1</td>
+<td align="center">CronJob</td>
+</tr>
+<tr>
+<td align="center">核心对象</td>
+<td align="center">core</td>
+<td align="center">v1</td>
+<td align="center">Node&#x2F;Namespace&#x2F;ResourceQuota&#x2F;Event&#x2F;PV&#x2F;PVC&#x2F;Pod&#x2F;ConfigMap&#x2F;Secret&#x2F;ServiceAccount&#x2F;Service&#x2F;EndPoint</td>
+</tr>
+<tr>
+<td align="center">核心对象</td>
+<td align="center">storage</td>
+<td align="center">v1</td>
+<td align="center">StoregeClass</td>
+</tr>
+</tbody></table>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ul>
+<li><p>master： k8s集群得管理节点，负责管理集群，提供集群得资源数据访问入口。拥有Etcd存储服务，运行Api-server进程，Controller Manager 服务进程以及Scheduler服务进程。</p>
+</li>
+<li><p>node: node是kubernetes集群架构中运行Pod的服务节点，是kubernetes集群操作的单元，用来承载被分配Pod的运行，是Pod的宿主机</p>
+</li>
+<li><p>pod：运行在Node节点上，使用相同的网络的命名空间，IP地址和端口，能够通过localhoast进行通信，Pod是k8s创建，调度和管理的最小单位，它提供了比容器更高层次的抽象，使得部署和管理更加灵活，一个pod可以包含一个容器或者多个容器。</p>
+</li>
+<li><p>Deployment: 内部使用RS来实现目的，Deployment相当与RC得一次升级，其最大得特色为可以随时获取当前Pod部署进度。</p>
+</li>
+<li><p>HPA：Pod得横向自动扩容，也是k8s得一种资源，通过追踪分析RC控制得所有Pod目标得负载变化情况，来确定是否需要针对性得调整Pod副本数量。</p>
+</li>
+<li><p>Service：服务发现，定义了Pod得逻辑集合和访问该集合得策略，是真实服务得抽象，service提供了统一服务访问入口以及服务代理和发现机制，关联多个相同Label得Pod，用户不需要了解后台得pod得如何运行,由kube-proxy负责分配服务负载均衡策略，每一个service都会自动分配一个cluster Ip(仅在集群内部可访问的虚拟地址)和DNS名，其他容器可以通过该地址或者DNS来访问服务，而不需要了解后端容器的运行。</p>
+</li>
+<li><p>Relipa Set：无状态副本集，允许用户定义pod的副本数，每一个Pod都会被当作一个无状态的成员进行管理，kubernetes保证总是用户期望的数量Pod的正常运行。</p>
+</li>
+<li><p>StatefulSet：有状态服务集，对于StatefulSet，每个Pod挂载自动独立的存储，如果一个pod出现故障，从其他节点启动同样名字的Pod，要挂载上原来的Pod的存储继续以它的状态提供服务</p>
+<blockquote>
+<blockquote>
+<ul>
+<li>satefulSet的业务包括数据库服务Mysql和PostgreSql，集群化管理服务zookeeper，etcd等状态服务。</li>
+<li>使用StatefulSet，Pod仍然可以通过漂移到不同节点提供高可用，而存储也可以通过外挂的存储来提高高可靠。</li>
+</ul>
+</blockquote>
+</blockquote>
+</li>
+<li><p>Job: 控制批处理型任务的API对象。</p>
+</li>
+<li><p>DeamonSet：保证每一个node运行一个pod。</p>
+</li>
+<li><p>pv: </p>
+</li>
+<li><p>pvc:</p>
+</li>
+<li><p>Volume：Volume是pod中能够被多个容器访问的共享目录，k8s是volume是定义在Pod上，可以被一个或多个Pod的容器挂载到某个目录上。</p>
+</li>
+<li><p>VolumeMounts: 定义存储卷如何Mount到容器内部。</p>
+</li>
+<li><p>ConfigMap: 将环境变量信息和容器镜像解耦，使用时 pods可以将其用作环境变量，命令行参数或者存储卷中的配置文件。</p>
+</li>
+<li><p>Secret: 是用来保存和传递密码，密钥，认证凭证这些敏感信息的对象。</p>
+</li>
+<li><p>User Account：用户账户为人提供账户标识 与namespace 无关,该账户是跨Namespace。</p>
+</li>
+<li><p>Service Account：服务账户对应是一个运行中程序的身份，与特定Namespace是相关的。</p>
+</li>
+<li><p>资源限制</p>
+</li>
+<li><p>健康检查</p>
+<ul>
+<li>探针类型 <ul>
+<li>LivenessProbe 探测应用是否处于健康状态，如果不健康则删除并重建容器</li>
+<li>ReadinessProbe 探测应用是否就绪并且处于正常服务状态，如果不正常则不会接收来自service的流量</li>
+<li>StartupProbe 探测应用是否启动完成，如果在 failureThreshold*periodSeconds 周期内未就绪，则会应用进程会被重启</li>
+</ul>
+</li>
+<li>探活方式<ul>
+<li>Exec</li>
+<li>TCP socket</li>
+<li>http</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="相关组件"><a href="#相关组件" class="headerlink" title="相关组件"></a>相关组件</h2><ul>
 <li>kubernetes Api server：作为kubernetes系统的入口，其封装了核心对象的增删改查操作，以Restful API接口方式提供给外部客户和内部组件调用，集群内各个功能模块之间数据交换和通信的中心枢纽</li>
 <li>kubernetes Schedule：为新建立的Pod进行节点选择合适机器，负责集群的资源调度。</li>
 <li>kubernetes Controller：负责执行各种控制器。</li>
-<li>Replication Controller: 管理维护Replication Controller,关联Replication Controller和Pod，保证Relication Controller定义的副本数量和实际运行Pod数量一致。</li>
+<li>Relication Controller：用来管理Pod得副本，保证集群中存在指定数量得Pod得副本，如果，集群中副本得数量大于指定数量，则会停止指定数量之外得多余容器，反之，则会启动少于指定数量个数容器，保证数量不变，是实现弹性伸缩，动态扩容，滚动升级得核心。</li>
 <li>Node Controller：管理维护Node，定期检查Node的健康状态。</li>
 <li>Namespacce Controller: 维护Namespace，定期清理无效的NameSpace，包括Namespace下的Api对象，比如Pod，service等</li>
 <li>Service Controller：管理维护service，提供负载以及服务代理。</li>
