@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="spring 配置spring boot devtools global setting propertise @TestPropertySource @springBootTest 命令行参数 spring_application_json servletConfig servletContext JDNI java System propertise 操作系统 随机数 application-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring config">
+<meta property="og:url" content="http://example.com/2023/04/05/spring/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="spring 配置spring boot devtools global setting propertise @TestPropertySource @springBootTest 命令行参数 spring_application_json servletConfig servletContext JDNI java System propertise 操作系统 随机数 application-">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/images/pasted-11.png">
+<meta property="og:image" content="http://example.com/images/pasted-12.png">
+<meta property="og:image" content="http://example.com/images/pasted-13.png">
+<meta property="og:image" content="http://example.com/images/pasted-14.png">
+<meta property="og:image" content="http://example.com/images/pasted-15.png">
+<meta property="og:image" content="http://example.com/images/pasted-16.png">
+<meta property="og:image" content="http://example.com/images/pasted-17.png">
+<meta property="og:image" content="http://example.com/images/pasted-18.png">
+<meta property="article:published_time" content="2023-04-05T12:20:00.000Z">
+<meta property="article:modified_time" content="2023-04-09T03:23:29.726Z">
+<meta property="article:author" content="何平">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/pasted-11.png">
+
+<link rel="canonical" href="http://example.com/2023/04/05/spring/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>spring config | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/yourname" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/04/05/spring/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring config
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">نُشر في</span>
+
+              <time title="أُنشأ: 2023-04-05 20:20:00" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2023-04-09 11:23:29" itemprop="dateModified" datetime="2023-04-09T11:23:29+08:00">2023-04-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="spring-配置"><a href="#spring-配置" class="headerlink" title="spring 配置"></a>spring 配置</h1><h2 id="spring-boot"><a href="#spring-boot" class="headerlink" title="spring boot"></a>spring boot</h2><ul>
+<li>devtools global setting propertise</li>
+<li>@TestPropertySource</li>
+<li>@springBootTest</li>
+<li>命令行参数</li>
+<li>spring_application_json</li>
+<li>servletConfig</li>
+<li>servletContext</li>
+<li>JDNI</li>
+<li>java System propertise</li>
+<li>操作系统</li>
+<li>随机数</li>
+<li>application-{profile} 包外</li>
+<li>application-{profile} 包内</li>
+<li>application.propertise或者yml包外文件</li>
+<li>application.propertise或者yml包内文件</li>
+<li>@PropertySource</li>
+<li>默认属性 （自己添加properties对象）</li>
+</ul>
+<p><code>https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-exposing-yaml-to-spring</code></p>
+<h3 id="配置方式的核心逻辑"><a href="#配置方式的核心逻辑" class="headerlink" title="配置方式的核心逻辑"></a>配置方式的核心逻辑</h3><ul>
+<li>main 命令行参数 org.springframework.boot.SpringApplication#configurePropertySources()</li>
+</ul>
+<ul>
+<li><img src="/images/pasted-11.png" alt="upload successful"></li>
+</ul>
+<ul>
+<li>org.springframework.boot.context.config.ConfigFileApplicationListener 监听ApplicationEnvironmentPreparedEvent事件<ul>
+<li>执行顺序：public static final int DEFAULT_ORDER &#x3D; Ordered.HIGHEST_PRECEDENCE + 10;</li>
+<li>执行逻辑：<ul>
+<li>org.springframework.boot.context.config.RandomValuePropertySource#addToEnvironment</li>
+<li>org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#load()</li>
+<li>profile<Queue>集合: 							-<br> -     org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#initializeActiveProfiles 读取命令行中 add<code>spring.profiles.active</code> 和 <code>spring.profiles.include</code> 的profile<br> - add defaultProfile	<br> - add null</li>
+</ul>
+</li>
+<li>确定配置文件的位置 – <code>spring.config.location</code><br>org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#getSearchLocations</li>
+<li>循环取数 profiles.poll() 先进后出<br>  - application.properties ( propertySources.addFirst(propertySource);)<br>  - 	 application-default.properties (<code>spring.profiles.default</code>命令行存在的情况下)<br> - <code>spring.profiles.active</code> 和 <code>spring.profiles.include</code> （也就解释了为什么在application.propertes 生效的原因）org.springframework.boot.context.config.ConfigFileApplicationListener.Loader#addProfiles</li>
+</ul>
+</li>
+</ul>
+<h3 id="spring-profiles-active与default互斥"><a href="#spring-profiles-active与default互斥" class="headerlink" title="spring.profiles.active与default互斥"></a>spring.profiles.active与default互斥</h3><pre><code> org.springframework.boot.bind.RelaxedDataBinder#doBind 会过滤掉default
+        
+</code></pre>
+<h2 id="spring-cloud-config"><a href="#spring-cloud-config" class="headerlink" title="spring cloud config"></a>spring cloud config</h2><h3 id="客户端配置方式"><a href="#客户端配置方式" class="headerlink" title="客户端配置方式"></a>客户端配置方式</h3><p>配置  bootstrap.properties</p>
+<p>配置 以<code>spring.cloud.config.</code> 开头配置信息<br><code>	     ## 配置客户端应用关联的应用     ## spring.cloud.config.name 是可选的     ## 如果没有配置，采用 $&#123;spring.application.name&#125;     spring.cloud.config.name =      ## 关联 profile     spring.cloud.config.profile = prod     ## 关联 label     spring.cloud.config.label = master     ## 配置配置服务器URI     spring.cloud.config.uri = http://127.0.0.1:9090/</code></p>
+<p>org.springframework.cloud.bootstrap.BootstrapApplicationListener</p>
+<ul>
+<li>执行顺序：public static final int DEFAULT_ORDER &#x3D; Ordered.HIGHEST_PRECEDENCE + 5</li>
+</ul>
+<h4 id="Bootstrap-配置"><a href="#Bootstrap-配置" class="headerlink" title="Bootstrap 配置"></a>Bootstrap 配置</h4><p>BootstrapApplicationListener监听ApplicationEnvironmentPreparedEvent<br>    + <code>String configName = environment.resolvePlaceholders(&quot;$&#123;spring.cloud.bootstrap.name:bootstrap&#125;&quot;);</code><br>    + <code>spring.cloud.bootstrap.location</code>  自定义bootstrap配置文件位置<br>    + <code>spring.config.name</code> 自定义bootstrap配置文件名称<br>    + <code>--spring.cloud.config.allowOverride=false</code> 覆盖远程配置属性   </p>
+<h4 id="自定义-Bootstrap-配置"><a href="#自定义-Bootstrap-配置" class="headerlink" title="自定义 Bootstrap 配置"></a>自定义 Bootstrap 配置</h4><ol>
+<li>创建<code>META-INF/spring.factories</code>文件</li>
+<li>自定义 Bootstrap 配置 Configuration 实现<code>ApplicationContextInitializer</code><br><img src="/images/pasted-12.png" alt="upload successful"></li>
+<li>配置<code>META-INF/spring.factories</code>文件，关联Key <code>org.springframework.cloud.bootstrap.BootstrapConfiguration</code></li>
+</ol>
+<h4 id="自定义-Bootstrap-配置属性源"><a href="#自定义-Bootstrap-配置属性源" class="headerlink" title="自定义 Bootstrap 配置属性源"></a>自定义 Bootstrap 配置属性源</h4><ol>
+<li>实现<code>PropertySourceLocator</code><br>   <img src="/images/pasted-13.png" alt="upload successful"></li>
+<li>配置<code>META-INF/spring.factories</code> </li>
+<li>romote 属性源基于<strong>PropertySourceLocator</strong>扩展</li>
+</ol>
+<h3 id="底层实现-ConfigServicePropertySourceLocator"><a href="#底层实现-ConfigServicePropertySourceLocator" class="headerlink" title="底层实现 -ConfigServicePropertySourceLocator"></a>底层实现 -ConfigServicePropertySourceLocator</h3><ul>
+<li><em>PropertySourceLocator</em>实现类 -<br>org.springframework.cloud.config.client.ConfigServicePropertySourceLocator</li>
+<li>META-INF&#x2F;spring.factories 的配置：	<br><code>org.springframework.cloud.bootstrap.BootstrapConfiguration=\ org.springframework.cloud.config.client.ConfigServicePropertySourceLocator</code></li>
+</ul>
+<h3 id="Spring-Cloud-Config-核心-API-PropertySourceLocator"><a href="#Spring-Cloud-Config-核心-API-PropertySourceLocator" class="headerlink" title="Spring Cloud Config 核心 API-PropertySourceLocator"></a>Spring Cloud Config 核心 API-PropertySourceLocator</h3><ul>
+<li>内建实现实现 Spring Cloud Config Client 实现 - ConfigServicePropertySourceLocator</li>
+<li>特定客户端实现 	<ul>
+<li>Zookeeper - org.springframework.cloud.zookeeper.config.ZookeeperPropertySourceLocator</li>
+<li>Consul - org.springframework.cloud.consul.config.ConsulPropertySourceLocator</li>
+<li>Nacos - com.alibaba.cloud.nacos.client.NacosPropertySourceLocator</li>
+<li>Kubernetes(ConfigMap) -org.springframework.cloud.kubernetes.fabric8.config.Fabric8ConfigMapPropertySourceLocator</li>
+</ul>
+</li>
+</ul>
+<h3 id="配置服务器"><a href="#配置服务器" class="headerlink" title="配置服务器"></a>配置服务器</h3><h4 id="传统架构"><a href="#传统架构" class="headerlink" title="传统架构"></a>传统架构</h4><p><img src="/images/pasted-14.png" alt="upload successful"></p>
+<h3 id="spring-cloud-config-架构"><a href="#spring-cloud-config-架构" class="headerlink" title="spring-cloud config 架构"></a>spring-cloud config 架构</h3><p><img src="/images/pasted-15.png" alt="upload successful"><br><img src="/images/pasted-16.png" alt="upload successful"></p>
+<h3 id="基于文件系统"><a href="#基于文件系统" class="headerlink" title="基于文件系统"></a>基于文件系统</h3><ol>
+<li>激活应用配置服务器<br>  在引导类上标注<code>@EnableConfigServer</code></li>
+<li>创建本地目录</li>
+<li>配置 git 本地仓库 URI	<br>  <code> spring.cloud.config.server.git.uri = $&#123;user.dir&#125;/src/main/resources/configs</code></li>
+<li>初始化本地 git 仓库</li>
+</ol>
+<h3 id="基于远程git仓库"><a href="#基于远程git仓库" class="headerlink" title="基于远程git仓库"></a>基于远程git仓库</h3><ol>
+<li>激活应用配置服务器<br>  在引导类上标注<code>@EnableConfigServer</code></li>
+<li>配置远程 Git 仓库地址<br><code>spring.cloud.config.server.git.uri = https://github.com/...</code></li>
+<li>配置强制拉去内容</li>
+</ol>
+<h3 id="底层实现"><a href="#底层实现" class="headerlink" title="底层实现"></a>底层实现</h3><h4 id="直连模式-org-springframework-cloud-config-server-environment-EnvironmentRepository"><a href="#直连模式-org-springframework-cloud-config-server-environment-EnvironmentRepository" class="headerlink" title="直连模式 - org.springframework.cloud.config.server.environment.EnvironmentRepository"></a>直连模式 - org.springframework.cloud.config.server.environment.EnvironmentRepository</h4><p>内建实现	<br><code>	org.springframework.cloud.config.server.environment.JdbcEnvironmentRepository    org.springframework.cloud.config.server.environment.JGitEnvironmentRepository    org.springframework.cloud.config.server.environment.RedisEnvironmentRepository    org.springframework.cloud.config.server.environment.AwsS3EnvironmentRepository    org.springframework.cloud.config.server.environment.CompositeEnvironmentRepository     ......    </code></p>
+<h3 id="动态配置属性Bean"><a href="#动态配置属性Bean" class="headerlink" title="动态配置属性Bean"></a>动态配置属性Bean</h3><h4 id="RefreshEvent事件"><a href="#RefreshEvent事件" class="headerlink" title="RefreshEvent事件"></a>RefreshEvent事件</h4><p>  配置刷新事件，应用接收到此事件后应用会构造一个临时的ApplicationContext（BootstrapApplicationListener 重新从配置中心获取属性），构造完毕后，新的Environment里的PropertySource和原来的PropertySource进行对比覆盖</p>
+<h4 id="EnvironmentChangeEvent事件"><a href="#EnvironmentChangeEvent事件" class="headerlink" title="EnvironmentChangeEvent事件"></a>EnvironmentChangeEvent事件</h4><p>环境变化事件，接收到此事件表示应用里的配置数据已经发生变化。EnvironmentChangeEvent事件维护一个配置项keys集合，当配置动态修改后，配置发生变化后key会设置到事件keys集合中。</p>
+<h4 id="RefreshScope"><a href="#RefreshScope" class="headerlink" title="@RefreshScope"></a>@RefreshScope</h4><p>RefreshScope 注解作用使其修饰的类在收到RefreshEvent事件的时候被销毁，再次获取这个类的时候会重新构造，重新构造意味着重新解析表达式，重新获取该类。<br>RefreshScope类实现了BeanDefinitionRegistryPostProcessor接口，对满足Scope为refresh条件的BeanDefinition修改：把Bean的类型修改为LockedScopedProxyFactoryBean类，将Bean包装成 Proxy 对象，附加了Lock操作。<br><img src="/images/pasted-17.png" alt="upload successful"><br>在每次RefreshEvent事件发送完毕之后，都会触发RefreshScope的refreshAll方法，该方法内部会在spring上下文销毁Bean，destroy方法调用完毕之后会发送RefreshScopeRefreshedEvent事件，RefreshScopeRefreshedEvent事件是被第三方监听，如 Eureka。</p>
+<p><img src="/images/pasted-18.png" alt="upload successful"><br>由于LockedScopedProxyFactoryBean 内部每个操作都会加锁，ConfigurationController会获取锁，event内部发送RefreshEvent事件会获取同一把锁，造成死锁。</p>
+<h4 id="ConfigurationProperties"><a href="#ConfigurationProperties" class="headerlink" title="@ConfigurationProperties"></a>@ConfigurationProperties</h4><p>ConfigurationPropertiesRebinder接收到EnvironmentChangeEvent事件，更新Environment。</p>
+<h4 id="RefreshScope-与-ConfigurationPropertiesRebinder-的同异"><a href="#RefreshScope-与-ConfigurationPropertiesRebinder-的同异" class="headerlink" title="RefreshScope 与 ConfigurationPropertiesRebinder 的同异"></a>RefreshScope 与 ConfigurationPropertiesRebinder 的同异</h4><h5 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h5><ul>
+<li>两者均操作 Spring Bean，RefreshScope 主要是配置 Bean，ConfigurationPropertiesRebinder 绝大多数为配置 Bean</li>
+<li>两者均有对应的注解形式，分别为 @RefreshScope 以及 @ConfigurationProperties</li>
+<li>两者自身也属于 Spring IoC 中的 Bean，受到 Spring IoC 容器 Bean 生命周期的管理</li>
+<li>两者均可以被 Spring JMX 管理，均标注了 @ManagedResource</li>
+<li>两者均针对特定特征的 Spring Bean 处理，如 RefreshScope 处理的是 scope 为 “refresh” 的 Bean，ConfigurationPropertiesRebinder 处理的是标注 @ConfigurationProperties 的 Bean，参考 ConfigurationPropertiesBeans 类</li>
+<li>两者均会对特定的 Spring Bean 做 destroy 操作</li>
+</ul>
+<h5 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h5><ul>
+<li>RefreshScope 仅执行 destroy 操作，ConfigurationPropertiesRebinder 即执行 destroy 操作，又重新执行执行 initialize 操作</li>
+<li>当某个 Bean 即标注 @RefreshScope，又标注 @ConfigurationProperties 的话，ConfigurationPropertiesRebinder 将会排除该 Bean</li>
+<li>ConfigurationPropertiesRebinder 的 rebind 操作是由 EnvironmentChangeEvent 事件触发，而 RefreshScope 需要外部触发</li>
+<li>RefreshScope 执行后，会发布 RefreshedEvent 事件</li>
+</ul>
+<h3 id="RefreshScope-的弊端"><a href="#RefreshScope-的弊端" class="headerlink" title="RefreshScope 的弊端"></a>RefreshScope 的弊端</h3><ul>
+<li>RefreshScope 属于自定义 Spring Scope，它会将普通的 Spring Bean 对象转化为 Spring AOP 代理对象，当被转化为代理对象时，普通的方法调用会被 Java Method 反射调用。</li>
+<li>代理后的对象，与原始 Bean 类层次性可能会发生不兼容的情况，如：	<br><code>	class ServiceB implements ServiceInterface &#123; &#125;	 // ServiceB Bean 可能会被代理为 ServiceInterface JDK 动态代理 - Proxy 对象 // 它与 ServiceB 本身不存在任何层次性，它们仅仅共同实现了 ServiceInterface 接口。</code></li>
+<li>RefreshScope 仅调用 Bean 的销毁方法，不会再次初始化操作，这些 “refresh”scope Bean 如果实现了销毁方法逻辑，可能会造成不确定的影响</li>
+<li>如果 RefreshScope 对应的 Spring 配置 Bean 的话，那么，它实际的作用远不如 @ConfigurationProperties 重新绑定处理类 - ConfigurationPropertiesRebinder</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/16/kubernetes%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" rel="prev" title="kubernetes核心概念">
+      <i class="fa fa-chevron-left"></i> kubernetes核心概念
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/04/13/spring-transaction/" rel="next" title="spring jdbc transaction">
+      spring jdbc transaction <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#spring-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">spring 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot"><span class="nav-number">1.1.</span> <span class="nav-text">spring boot</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%E7%9A%84%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91"><span class="nav-number">1.1.1.</span> <span class="nav-text">配置方式的核心逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-profiles-active%E4%B8%8Edefault%E4%BA%92%E6%96%A5"><span class="nav-number">1.1.2.</span> <span class="nav-text">spring.profiles.active与default互斥</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-cloud-config"><span class="nav-number">1.2.</span> <span class="nav-text">spring cloud config</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">客户端配置方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">自定义 Bootstrap 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Bootstrap-%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E6%BA%90"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">自定义 Bootstrap 配置属性源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0-ConfigServicePropertySourceLocator"><span class="nav-number">1.2.2.</span> <span class="nav-text">底层实现 -ConfigServicePropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Cloud-Config-%E6%A0%B8%E5%BF%83-API-PropertySourceLocator"><span class="nav-number">1.2.3.</span> <span class="nav-text">Spring Cloud Config 核心 API-PropertySourceLocator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.4.</span> <span class="nav-text">配置服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">传统架构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-cloud-config-%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.5.</span> <span class="nav-text">spring-cloud config 架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.2.6.</span> <span class="nav-text">基于文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E8%BF%9C%E7%A8%8Bgit%E4%BB%93%E5%BA%93"><span class="nav-number">1.2.7.</span> <span class="nav-text">基于远程git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.8.</span> <span class="nav-text">底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E8%BF%9E%E6%A8%A1%E5%BC%8F-org-springframework-cloud-config-server-environment-EnvironmentRepository"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">直连模式 - org.springframework.cloud.config.server.environment.EnvironmentRepository</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7Bean"><span class="nav-number">1.2.9.</span> <span class="nav-text">动态配置属性Bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.1.</span> <span class="nav-text">RefreshEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EnvironmentChangeEvent%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.2.9.2.</span> <span class="nav-text">EnvironmentChangeEvent事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope"><span class="nav-number">1.2.9.3.</span> <span class="nav-text">@RefreshScope</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConfigurationProperties"><span class="nav-number">1.2.9.4.</span> <span class="nav-text">@ConfigurationProperties</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RefreshScope-%E4%B8%8E-ConfigurationPropertiesRebinder-%E7%9A%84%E5%90%8C%E5%BC%82"><span class="nav-number">1.2.9.5.</span> <span class="nav-text">RefreshScope 与 ConfigurationPropertiesRebinder 的同异</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.5.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="nav-number">1.2.9.5.2.</span> <span class="nav-text">不同点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RefreshScope-%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-number">1.2.10.</span> <span class="nav-text">RefreshScope 的弊端</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="何平"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">何平</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">何平</span>
+</div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+</body>
+</html>
