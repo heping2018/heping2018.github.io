@@ -81,7 +81,7 @@
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="تشغيل شريط التصفح">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
       <span class="toggle-line toggle-line-first"></span>
       <span class="toggle-line toggle-line-middle"></span>
       <span class="toggle-line toggle-line-last"></span>
@@ -110,12 +110,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Startseite</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archiv</a>
 
   </li>
   </ul>
@@ -148,6 +148,137 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/10/API-SERVER/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="何平">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/09/10/API-SERVER/" class="post-title-link" itemprop="url">API-SERVER</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              <time title="Erstellt: 2023-09-10 15:17:30 / Geändert am: 16:18:15" itemprop="dateCreated datePublished" datetime="2023-09-10T15:17:30+08:00">2023-09-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="API-Server"><a href="#API-Server" class="headerlink" title="API Server"></a>API Server</h2><p>kube-apiserver 是Kubernetes核心组件之一，提供一下功能：</p>
+<ul>
+<li>提供集群管理的rest api接口，包括认证授权，数据校验以及集群状态变更等。</li>
+<li>提供其他模块之间的数据交互和通信的枢纽（其他模块通过APIServer查询或修改数据，只有APIServer才能直接操作etcd）</li>
+</ul>
+<p><img src="/../images/api-server.png" alt="api-server"></p>
+<h3 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h3><p>kubernetes支持多种认证机制，并支持同时开启多个认证插件，如果认证成功，则用户的username会传入授权模块，进一步验证。</p>
+<h4 id="认证插件"><a href="#认证插件" class="headerlink" title="认证插件"></a>认证插件</h4><ul>
+<li>X509证书 在api-server启动时配置–client-ca-file&#x3D;SOMEFILE。</li>
+<li>静态token文件。<ul>
+<li>使用静态token文件认证需要在api-server启动时配置–client-ca-file&#x3D;SOMEFILE。</li>
+<li>该文件csv格式，每行至少包括三列token，username，userId。</li>
+</ul>
+</li>
+<li>引导token<ul>
+<li>为了支持平滑的启动引导新的集群，kubernetes包含动态管理的持有者令牌类型，称作启动引导令牌。</li>
+<li>这些令牌Secret的形式保存在kube-system名字空间中，可以被动态管理和创建。</li>
+<li>控制器管理器包含TokenCleaner控制器能够在启动引导令牌过期时将其删除。</li>
+<li>在使用kubeadm部署kubernetes时，可通过kubeadm token list查询</li>
+</ul>
+</li>
+<li>静态文件<ul>
+<li>需要在api-server启动时配置–client-ca-file&#x3D;SOMEFILE</li>
+</ul>
+</li>
+<li>serviceAccount<ul>
+<li>serviceAccount是kubernetes自动生成，并会自动挂载容器的&#x2F;run&#x2F;secrets&#x2F;kubernetes.io&#x2F;serviceaccount目录中,用于pod使用，为pod里的进程提供必要的身份证明。</li>
+<li>在每个Namespace下都有一个名为default的默认Service Account对象，在这个Service Account里面有一个名为token的可以当作Volume挂载到Pod里的secret，当pod启动时，这个Secret会自动被挂载到pod的指定目录下，用来协助完成pod中进程访问APIserver的身份鉴权。</li>
+</ul>
+</li>
+<li>OpenId<ul>
+<li>Oauth 2.0的认证机制</li>
+</ul>
+</li>
+<li>Webhook令牌身份认证<ul>
+<li>–authentication-token-webhook-config-file 指向一个配置文件，其中描述 如何访问远程的 Webhook 服务。</li>
+<li>–authentication-token-webhook-cache-ttl 用来设定身份认证决定的缓存时间。 默认时长为 2 分钟。</li>
+</ul>
+</li>
+<li>匿名请求<ul>
+<li>如果使用AlwaysAllow以外的认证模式，则匿名请求默认开启，但可用–anonymous-auth&#x3D;false禁止匿名请求。</li>
+</ul>
+</li>
+</ul>
+<h4 id="wehook"><a href="#wehook" class="headerlink" title="wehook"></a>wehook</h4><h5 id="kubenetes认证规范"><a href="#kubenetes认证规范" class="headerlink" title="kubenetes认证规范"></a>kubenetes认证规范</h5><ul>
+<li>配置文件</li>
+</ul>
+<p><code>&#123;   &quot;kind&quot;: &quot;Config&quot;,   &quot;apiVersion&quot;: &quot;v1&quot;,   &quot;preferences&quot;: &#123;&#125;,   &quot;clusters&quot;: [     &#123;       &quot;name&quot;: &quot;github-authn&quot;,       &quot;cluster&quot;: &#123;         &quot;server&quot;: &quot;http://192.168.34.2:3000/authenticate&quot;       &#125;     &#125;   ],   &quot;users&quot;: [     &#123;       &quot;name&quot;: &quot;authn-apiserver&quot;,       &quot;user&quot;: &#123;         &quot;token&quot;: &quot;secret&quot;       &#125;     &#125;   ],   &quot;contexts&quot;: [     &#123;       &quot;name&quot;: &quot;webhook&quot;,       &quot;context&quot;: &#123;         &quot;cluster&quot;: &quot;github-authn&quot;,         &quot;user&quot;: &quot;authn-apiserver&quot;       &#125;     &#125;   ],   &quot;current-context&quot;: &quot;webhook&quot; &#125;</code></p>
+<ul>
+<li>入参<br>{ “apiVersion”: “authentication.k8s.io&#x2F;v1beta1”, “kind”: “TokenReview”,<br>“spec”: { “token”: “(BEARERTOKEN)” } }</li>
+<li>返回参数<br>{<br>“apiVersion”: “authentication.k8s.io&#x2F;v1beta1”,<br>“kind”: “TokenReview”,<br>“status”: {<br>“authenticated”: true,<br>“user”: {<br>“username”: “<a href="mailto:&#x6a;&#x61;&#x6e;&#x65;&#x64;&#x6f;&#x65;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;">&#x6a;&#x61;&#x6e;&#x65;&#x64;&#x6f;&#x65;&#64;&#x65;&#x78;&#x61;&#109;&#x70;&#108;&#101;&#46;&#99;&#x6f;&#109;</a>“,<br>“uid”: “42”,<br>“groups”: [<br>“developers”,<br>“qa”<br>]}}<br>}</li>
+</ul>
+<h3 id="鉴权"><a href="#鉴权" class="headerlink" title="鉴权"></a>鉴权</h3><p>授权只要用于对集群资源访问控制，通过检查请求包含的相关属性值，与相对应的访问策略比较，APi请求必须满足某种策略才能被处理。如果授权成功，则用户的请求会发送到准入控制模块做进一步的请求验证。</p>
+<ul>
+<li>请求属性<ol>
+<li>user,group,extra</li>
+<li>API 请求方法（如 get post update patch,delete）和请求路径（&#x2F;api）</li>
+<li>请求资源和子资源</li>
+<li>namespace</li>
+<li>api group</li>
+</ol>
+</li>
+<li>授权插件<ol>
+<li>ABAC</li>
+<li>RBAC</li>
+<li>Webhook</li>
+<li>Node</li>
+</ol>
+</li>
+</ul>
+<h4 id="role与ClusterRole"><a href="#role与ClusterRole" class="headerlink" title="role与ClusterRole"></a>role与ClusterRole</h4><p>  Role是一系列权限的组合，例如一个角色可以包含读取pod的权限和列出pod的权限。Role只能用来给某个特定namespace中的资源作授权，对多namespace和集群级的资源或者是非资源类的API使用clusterRole</p>
+<p><img src="/../images/role&clusterRole.png" alt="role&amp;clusterRole"></p>
+<h4 id="binding"><a href="#binding" class="headerlink" title="binding"></a>binding</h4><p>角色绑定或者集群角色绑定用来把一个角色绑定到一个目标上，绑定目标可以是User，group，service Account。使用RoleBinding为某个命名空间授权，使用ClusterRoleBinding为集群范围内授权。<br><img src="/../images/bind-user.png" alt="bind-user"><br><img src="/../images/bind-group.png" alt="bind-group"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/05/03/zookeeper-%E6%8A%80%E6%9C%AF%E5%86%85%E5%B9%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,10 +301,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
-              <time title="أُنشأ: 2023-05-03 21:06:25 / عُدل: 21:16:35" itemprop="dateCreated datePublished" datetime="2023-05-03T21:06:25+08:00">2023-05-03</time>
+              <time title="Erstellt: 2023-05-03 21:06:25 / Geändert am: 21:16:35" itemprop="dateCreated datePublished" datetime="2023-05-03T21:06:25+08:00">2023-05-03</time>
             </span>
 
           
@@ -673,10 +804,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
-              <time title="أُنشأ: 2023-05-03 21:05:08 / عُدل: 21:05:14" itemprop="dateCreated datePublished" datetime="2023-05-03T21:05:08+08:00">2023-05-03</time>
+              <time title="Erstellt: 2023-05-03 21:05:08 / Geändert am: 21:05:14" itemprop="dateCreated datePublished" datetime="2023-05-03T21:05:08+08:00">2023-05-03</time>
             </span>
 
           
@@ -731,10 +862,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
-              <time title="أُنشأ: 2023-05-03 21:04:10 / عُدل: 21:04:24" itemprop="dateCreated datePublished" datetime="2023-05-03T21:04:10+08:00">2023-05-03</time>
+              <time title="Erstellt: 2023-05-03 21:04:10 / Geändert am: 21:04:24" itemprop="dateCreated datePublished" datetime="2023-05-03T21:04:10+08:00">2023-05-03</time>
             </span>
 
           
@@ -903,10 +1034,10 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
               
 
-              <time title="أُنشأ: 2023-04-22 20:56:45 / عُدل: 20:57:47" itemprop="dateCreated datePublished" datetime="2023-04-22T20:56:45+08:00">2023-04-22</time>
+              <time title="Erstellt: 2023-04-22 20:56:45 / Geändert am: 20:57:47" itemprop="dateCreated datePublished" datetime="2023-04-22T20:56:45+08:00">2023-04-22</time>
             </span>
 
           
@@ -978,16 +1109,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2023-04-13 21:20:31" itemprop="dateCreated datePublished" datetime="2023-04-13T21:20:31+08:00">2023-04-13</time>
+              <time title="Erstellt: 2023-04-13 21:20:31" itemprop="dateCreated datePublished" datetime="2023-04-13T21:20:31+08:00">2023-04-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-04-22 12:16:39" itemprop="dateModified" datetime="2023-04-22T12:16:39+08:00">2023-04-22</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-04-22 12:16:39" itemprop="dateModified" datetime="2023-04-22T12:16:39+08:00">2023-04-22</time>
               </span>
 
           
@@ -1133,16 +1264,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2023-04-05 20:20:00" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
+              <time title="Erstellt: 2023-04-05 20:20:00" itemprop="dateCreated datePublished" datetime="2023-04-05T20:20:00+08:00">2023-04-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-04-09 11:23:29" itemprop="dateModified" datetime="2023-04-09T11:23:29+08:00">2023-04-09</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-04-09 11:23:29" itemprop="dateModified" datetime="2023-04-09T11:23:29+08:00">2023-04-09</time>
               </span>
 
           
@@ -1310,16 +1441,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2022-10-16 16:11:53" itemprop="dateCreated datePublished" datetime="2022-10-16T16:11:53+08:00">2022-10-16</time>
+              <time title="Erstellt: 2022-10-16 16:11:53" itemprop="dateCreated datePublished" datetime="2022-10-16T16:11:53+08:00">2022-10-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-09-09 16:51:17" itemprop="dateModified" datetime="2023-09-09T16:51:17+08:00">2023-09-09</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-09-09 16:51:17" itemprop="dateModified" datetime="2023-09-09T16:51:17+08:00">2023-09-09</time>
               </span>
 
           
@@ -1570,16 +1701,16 @@
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2022-10-05 19:06:07" itemprop="dateCreated datePublished" datetime="2022-10-05T19:06:07+08:00">2022-10-05</time>
+              <time title="Erstellt: 2022-10-05 19:06:07" itemprop="dateCreated datePublished" datetime="2022-10-05T19:06:07+08:00">2022-10-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-09-10 15:13:36" itemprop="dateModified" datetime="2023-09-10T15:13:36+08:00">2023-09-10</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-09-10 15:13:36" itemprop="dateModified" datetime="2023-09-10T15:13:36+08:00">2023-09-10</time>
               </span>
 
           
@@ -1748,16 +1879,16 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
-              <span class="post-meta-item-text">نُشر في</span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
 
-              <time title="أُنشأ: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
+              <time title="Erstellt: 2022-06-03 15:22:00" itemprop="dateCreated datePublished" datetime="2022-06-03T15:22:00+08:00">2022-06-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
-                <span class="post-meta-item-text">عُدل في</span>
-                <time title="عُدل: 2023-05-14 16:01:02" itemprop="dateModified" datetime="2023-05-14T16:01:02+08:00">2023-05-14</time>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2023-05-14 16:01:02" itemprop="dateModified" datetime="2023-05-14T16:01:02+08:00">2023-05-14</time>
               </span>
 
           
@@ -2161,103 +2292,10 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="何平">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/29/mysql%E5%8E%9F%E5%AD%90%E6%80%A7/" class="post-title-link" itemprop="url">mysql InnoDB引擎 原子性和持久性</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">نُشر في</span>
-              
-
-              <time title="أُنشأ: 2022-05-29 10:57:24 / عُدل: 11:27:49" itemprop="dateCreated datePublished" datetime="2022-05-29T10:57:24+08:00">2022-05-29</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>数据写入磁盘需要经过操作系统的内存，系统内存写入磁盘的过程是 “正在写”的过程，“未写入”-&gt; “正在写”<br>-&gt; “已写入” 这三个过程不是原子性的，如果多条数据在一个事务中处于在“正在写”的过程，服务宕机，内存的数据丢失，部分数据写入到磁盘，原子性和持久性被破坏。</p>
-<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><h4 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h4><p><img src="/images/pasted-6.png"><br>redo log 存在三种状态</p>
-<ul>
-<li>存在 redo log buffer 中，物理上是在 MySQL 进程内存中，就是图中的红色部分；</li>
-<li>写到磁盘 (write)，但是没有持久化（fsync)，物理上是在文件系统的 page cache 里面，也就是图中的黄色部分；</li>
-<li>持久化到磁盘，对应的是 hard disk，也就是图中的绿色部分。</li>
-</ul>
-<p>为了控制 redo log 的写入策略，InnoDB 提供了 innodb_flush_log_at_trx_commit 参数，它有三种可能取值：</p>
-<ul>
-<li>设置为 0 的时候，表示每次事务提交时都只是把 redo log 留在 redo log buffer 中 ;</li>
-<li>设置为 1 的时候，表示每次事务提交时都将 redo log 直接持久化到磁盘；</li>
-<li>设置为 2 的时候，表示每次事务提交时都只是把 redo log 写到 page cache。</li>
-</ul>
-<h3 id="binlog"><a href="#binlog" class="headerlink" title="binlog"></a>binlog</h3><p>binlog 的写入逻辑比较简单：事务执行过程中，先把日志写到 binlog cache，事务提交的时候，再把 binlog cache 写到 binlog 文件中。</p>
-<p>一个事务的 binlog 是不能被拆开的，因此不论这个事务多大，也要确保一次性写入。这就涉及到了 binlog cache 的保存问题。</p>
-<p>系统给 binlog cache 分配了一片内存，每个线程一个，参数 binlog_cache_size 用于控制单个线程内 binlog cache 所占内存的大小。如果超过了这个参数规定的大小，就要暂存到磁盘。</p>
-<p><img src="/images/pasted-7.png"><br>write 和 fsync 的时机，是由参数 sync_binlog 控制的：</p>
-<ul>
-<li>sync_binlog&#x3D;0 的时候，表示每次提交事务都只 write，不 fsync；</li>
-<li>sync_binlog&#x3D;1 的时候，表示每次提交事务都会执行 fsync；</li>
-<li>sync_binlog&#x3D;N(N&gt;1) 的时候，表示每次提交事务都 write，但累积 N 个事务后才 fsync。</li>
-</ul>
-<h3 id="两个日志的理解"><a href="#两个日志的理解" class="headerlink" title="两个日志的理解"></a>两个日志的理解</h3><p>执行器和 InnoDB 引擎在执行这个简单的 update 语句时的内部流程。</p>
-<ol>
-<li><p>执行器先找引擎取 ID&#x3D;2 这一行。ID 是主键，引擎直接用树搜索找到这一行。</p>
-</li>
-<li><p>如果 ID&#x3D;2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回。执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据。<br><code>如果这里发生宕机,事务没有提交不会，数据恢复，不会有数据记录，符合原子性</code></p>
-</li>
-<li><p>引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务。<br><code>如果这里发生宕机,redo log 没有提交记录，数据恢复不会包含这提交数据，符合原子性</code></p>
-</li>
-<li><p>执行器生成这个操作的 binlog，并把 binlog 写入磁盘。</p>
-</li>
-<li><p>执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。<br><code>如果这里发生宕机,redo log 有提交记录，数据恢复会包含这提交数据，符合原子性</code></p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="الصفحة التالية"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Nächste Seite"></i></a>
   </nav>
 
 
@@ -2301,10 +2339,10 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
-          المحتويات
+          Inhaltsverzeichnis
         </li>
         <li class="sidebar-nav-overview">
-          عام
+          Übersicht
         </li>
       </ul>
 
@@ -2325,8 +2363,8 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
-          <span class="site-state-item-name">المقالات</span>
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">Artikel</span>
         </a>
       </div>
   </nav>
@@ -2359,7 +2397,7 @@ https://dl.acm.org/doi/10.1145/2741948.2741964
   </span>
   <span class="author" itemprop="copyrightHolder">何平</span>
 </div>
-  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
         
